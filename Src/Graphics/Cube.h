@@ -1,10 +1,11 @@
 #ifndef CUBE_H_INCLUDED
 #define CUBE_H_INCLUDED
 
-#include "Mesh.h"
 #include "Shader.h"
 
-class Cube : public Mesh {
+class Mesh;
+
+class Cube {
 private:
     const float vertices[24] = {
         -0.5f, 0.f, -0.5f,
@@ -17,10 +18,6 @@ private:
         -0.5f, 1.f, 0.5f
     };
 
-    std::vector<GLuint> primitives;
-
-    std::vector<float> vertexData;
-
     Vector3f position;
     // Scales relative to an arbitrary origin.
     Vector3f scaleOrigin;
@@ -28,12 +25,10 @@ private:
     // Rotations relative to an arbitrary origin.
     Vector3f rotationOrigin;
     Vector3f rotation;
+    
+    Mesh* mesh;
     Shader::Uniform* worldMat;
-
-protected:
-    virtual void generateData() override;
-    virtual void uploadData() override;
-    virtual void renderInternal() override;
+    Shader::Uniform* colorUniform;
 
 public:
     Vector4f color;
@@ -49,6 +44,7 @@ public:
     void addRotationOriginY(float bruh);
     void addRotationZ(float bruh);
     
+    void render();
     void render(const Vector3f& origin);
 };
 

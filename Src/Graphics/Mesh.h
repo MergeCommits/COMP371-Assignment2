@@ -2,6 +2,7 @@
 #define MESH_H_INCLUDED
 
 #include <GL/glew.h>
+#include <vector>
 
 class Shader;
 
@@ -10,22 +11,22 @@ private:
     GLuint vertexArrayObject = 0;
     GLuint vertexBufferObject = 0;
     GLuint primitiveBuffer = 0;
-
-protected:
+    
+    std::vector<float> vertexData;
+    std::vector<int> primData;
+    
     Shader* shader;
-    GLsizei primitiveCount = 0;
     GLenum mode;
 
-    bool needsGen;
     bool needsUpload;
-    virtual void generateData()=0;
-    virtual void uploadData()=0;
-    virtual void renderInternal()=0;
+    
+    void uploadData();
 
 public:
     Mesh(Shader* shd);
     ~Mesh();
 
+    void setGeometry(std::vector<float>& vertices, std::vector<int>& primitives, GLenum mod = GL_TRIANGLES);
     void render();
 };
 

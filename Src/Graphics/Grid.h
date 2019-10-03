@@ -3,10 +3,11 @@
 
 #include <vector>
 
-#include "Mesh.h"
 #include "Shader.h"
 
-class Grid : public Mesh {
+class Mesh;
+
+class Grid {
 private:
     const float vertices[12] = {
         -1.f, 0.f, -1.f,
@@ -14,23 +15,19 @@ private:
         1.f, 0.f, -1.f,
         1.f, 0.f, 1.f
     };
-
-    std::vector<GLuint> primitives;
-
-    std::vector<float> vertexData;
-
+    
+    Mesh* mesh;
+    
     Shader::Uniform* worldMat;
-
-protected:
-    virtual void generateData() override;
-    virtual void uploadData() override;
-    virtual void renderInternal() override;
+    Shader::Uniform* colorUniform;
 
 public:
     Vector4f color;
     Vector3f scale;
 
     Grid(Shader* shd);
+    
+    void render();
 };
 
 #endif // GRID_H_INCLUDED
