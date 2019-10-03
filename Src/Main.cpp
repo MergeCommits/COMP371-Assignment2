@@ -93,7 +93,7 @@ int main() {
     cam->setPosition(Vector3f(0.f, 5.f, -10.f));
 
     // Shaders.
-    Shader* shd  = new Shader("default/");
+    Shader* shd  = new Shader("Shaders/default/");
     shd->addVec3VertexInput("position");
     cam->addShader(shd);
 

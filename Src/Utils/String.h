@@ -4,12 +4,6 @@
 #include <vector>
 #include <string>
 
-#if defined(__APPLE__) && defined(__OBJC__)
-#include <Foundation/NSString.h>
-#endif
-
-typedef wchar_t wchar;
-
 class String {
 public:
     ~String();
@@ -17,19 +11,12 @@ public:
     String(const String& a);
     String(const char* cstr);
     String(const std::string& cppstr);
-    String(const wchar* wstr);
-    String(const std::wstring& cppwstr);
     String(const String& a,const String& b);
     String(char c);
-    String(wchar w);
     String(int i,bool hex=false);
     String(float f);
 
     const char* cstr() const;
-    const wchar* wstr() const;
-#if defined(__APPLE__) && defined(__OBJC__)
-    NSString* nsstr() const;
-#endif
     int toInt() const;
     float toFloat() const;
 
@@ -56,17 +43,12 @@ public:
     bool equals(const String& other) const;
     bool isEmpty() const;
 protected:
-    enum class DOMINANT_BUFFER {
-        C, W
-    } dominantBuffer;
-
     char* cbuffer = nullptr;
-    wchar* wbuffer = nullptr;
     long long hashCode;
     int capacity = 16;
     int strSize = 0;
-
-    void syncBuffers();
+    
+    void genHashCode();
 };
 
 const String operator+(const String& a, const String& b);

@@ -23,10 +23,10 @@
 		193AD0EA232A8276007879F4 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 193AD0E1232A8276007879F4 /* Matrix.cpp */; };
 		193AD0EB232A8276007879F4 /* Timing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 193AD0E4232A8276007879F4 /* Timing.cpp */; };
 		193AD0EC232A8276007879F4 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 193AD0E5232A8276007879F4 /* Main.cpp */; };
-		193AD0F2232A82FB007879F4 /* default in CopyFiles */ = {isa = PBXBuildFile; fileRef = 193AD0EF232A8296007879F4 /* default */; };
 		193AD0F6232A83DF007879F4 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 193AD0F5232A83DF007879F4 /* Shader.cpp */; };
 		193AD10B232A9227007879F4 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 193AD10A232A9227007879F4 /* Mesh.cpp */; };
 		193AD10E232A94BC007879F4 /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 193AD10D232A94BC007879F4 /* Triangle.cpp */; };
+		19624A5323463662006291CE /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 19624A5223463651006291CE /* Shaders */; };
 		198CE12A232AFD6E009C2FBF /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 198CE128232AFD6E009C2FBF /* Camera.cpp */; };
 		19BF9A60232DE8FA00FF13A1 /* Axis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19BF9A5E232DE8FA00FF13A1 /* Axis.cpp */; };
 /* End PBXBuildFile section */
@@ -38,7 +38,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				193AD0F2232A82FB007879F4 /* default in CopyFiles */,
+				19624A5323463662006291CE /* Shaders in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,13 +71,13 @@
 		193AD0E3232A8276007879F4 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		193AD0E4232A8276007879F4 /* Timing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timing.cpp; sourceTree = "<group>"; };
 		193AD0E5232A8276007879F4 /* Main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
-		193AD0EF232A8296007879F4 /* default */ = {isa = PBXFileReference; lastKnownFileType = folder; path = default; sourceTree = "<group>"; };
 		193AD0F4232A83DF007879F4 /* Shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		193AD0F5232A83DF007879F4 /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		193AD109232A9227007879F4 /* Mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
 		193AD10A232A9227007879F4 /* Mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
 		193AD10C232A94BC007879F4 /* Triangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
 		193AD10D232A94BC007879F4 /* Triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Triangle.cpp; sourceTree = "<group>"; };
+		19624A5223463651006291CE /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		198CE128232AFD6E009C2FBF /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		198CE129232AFD6E009C2FBF /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		19BF9A5E232DE8FA00FF13A1 /* Axis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Axis.cpp; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 		193AD0EE232A8286007879F4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				193AD0EF232A8296007879F4 /* default */,
+				19624A5223463651006291CE /* Shaders */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -229,7 +229,7 @@
 		0371ABC31A6EAF2E00029CF8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = Concordia;
 				TargetAttributes = {
 					0371ABCA1A6EAF2E00029CF8 = {
@@ -237,7 +237,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0371ABC61A6EAF2E00029CF8 /* Build configuration list for PBXProject "COMP371 A1" */;
+			buildConfigurationList = 0371ABC61A6EAF2E00029CF8 /* Build configuration list for PBXProject "COMP371 A2" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -382,6 +382,7 @@
 		0371ABD31A6EAF2E00029CF8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"DEBUG=1",
@@ -407,6 +408,7 @@
 		0371ABD41A6EAF2E00029CF8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				GCC_PREPROCESSOR_DEFINITIONS = "PLATFORM_OSX=1";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -428,7 +430,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0371ABC61A6EAF2E00029CF8 /* Build configuration list for PBXProject "COMP371 A1" */ = {
+		0371ABC61A6EAF2E00029CF8 /* Build configuration list for PBXProject "COMP371 A2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0371ABD01A6EAF2E00029CF8 /* Debug */,
