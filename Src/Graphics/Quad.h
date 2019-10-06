@@ -6,12 +6,12 @@ class Mesh;
 
 class Quad {
 private:
-    float quadVertices[20] = {
-        // positions        // texture Coords
-        -1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
-        -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-         1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-         1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+    float quadVertices[16] = {
+        // positions  // texture Coords
+        -1.0f,  1.0f, 0.0f, 1.0f,
+        -1.0f, -1.0f, 0.0f, 0.0f,
+         1.0f,  1.0f, 1.0f, 1.0f,
+         1.0f, -1.0f, 1.0f, 0.0f,
     };
     
     Mesh* mesh;

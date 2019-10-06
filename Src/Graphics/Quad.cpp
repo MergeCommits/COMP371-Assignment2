@@ -11,12 +11,12 @@ Quad::Quad(Shader* shd) {
     
     mesh = new Mesh(shd);
     std::vector<float> verts;
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 16; i++) {
         verts.push_back(quadVertices[i]);
     }
     std::vector<int> prims = {
-        0, 1, 2,
-        0, 3, 1
+        2, 1, 0,
+        3, 1, 2
     };
     
     mesh->setGeometry(verts, prims);

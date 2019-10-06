@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 #include "Texture.h"
+#include "Shader.h"
 
 Texture::Texture(const String& path) {
     filePath = path;
@@ -35,4 +36,25 @@ Texture::Texture(const String& path) {
     // Free images.
     FreeImage_Unload(image);
     FreeImage_Unload(image32bits);
+}
+
+Texture::~Texture() {
+    glDeleteTextures(1, &textureID);
+}
+
+void Texture::activate(int index, Shader* shd) const {
+    GLenum glTextureLayers[] = {
+        GL_TEXTURE0,
+        GL_TEXTURE1,
+        GL_TEXTURE2,
+        GL_TEXTURE3,
+        GL_TEXTURE4,
+        GL_TEXTURE5,
+        GL_TEXTURE6,
+        GL_TEXTURE7
+    };
+
+    glActiveTexture(glTextureLayers[index]);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    shd->getIntUniform(String("tex", index).cstr())->setValue(index);
 }

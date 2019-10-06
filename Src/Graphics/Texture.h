@@ -4,6 +4,8 @@
 #include <GL/glew.h>
 #include "../Utils/String.h"
 
+class Shader;
+
 class Texture {
 private:
     String filePath;
@@ -12,6 +14,9 @@ private:
     
 public:
     Texture(const String& path);
+    ~Texture();
+    
+    void activate(int index, Shader* shd) const;
 };
 
 #endif // TEXTURE_H_INCLUDED
