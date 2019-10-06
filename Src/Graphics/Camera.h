@@ -40,6 +40,7 @@ public:
     
     Matrix4x4f getViewMatrix() const;
     Matrix4x4f getProjectionMatrix() const;
+    void setProjectionMatrix(const Matrix4x4f& mat);
 
     void update();
 

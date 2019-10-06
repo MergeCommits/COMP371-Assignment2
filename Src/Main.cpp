@@ -154,6 +154,11 @@ int main() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     imageShader->getIntUniform("tex0")->setValue(0);
+    
+    Camera* light = new Camera((float)width / height);
+    light->addAngle(0.f, MathUtil::PI / -2.f);
+    light->setProjectionMatrix(Matrix4x4f::constructOrthographicMat(50.f, 50.f, 0.01f, 50.f));
+    light->update();
 
     while (!glfwWindowShouldClose(window)) {
         while (timing->tickReady()) {
@@ -173,11 +178,9 @@ int main() {
         
         // 1. render depth of scene to texture (from light's perspective)
         // --------------------------------------------------------------
-        Matrix4x4f depthViewMatrix = cam->getViewMatrix();
-        Matrix4x4f depthProjectionMatrix = cam->getProjectionMatrix();
         // render scene from light's point of view
-        depthPassShader->getMat4Uniform("depthViewMatrix")->setValue(depthViewMatrix);
-        depthPassShader->getMat4Uniform("depthProjectionMatrix")->setValue(depthProjectionMatrix);
+        depthPassShader->getMat4Uniform("depthViewMatrix")->setValue(light->getViewMatrix());
+        depthPassShader->getMat4Uniform("depthProjectionMatrix")->setValue(light->getProjectionMatrix());
 
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
@@ -194,14 +197,10 @@ int main() {
 
         // render Depth map to quad for visual debugging
         // ---------------------------------------------
-//        debugDepthQuad.use();
-//        debugDepthQuad.setFloat("near_plane", near_plane);
-//        debugDepthQuad.setFloat("far_plane", far_plane);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, depthMap);
         
         glDisable(GL_DEPTH_TEST);
-//        testTex->activate(0, imageShader);
         quad->render();
         glEnable(GL_DEPTH_TEST);
 

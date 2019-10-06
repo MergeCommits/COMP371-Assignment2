@@ -45,6 +45,11 @@ Matrix4x4f Camera::getProjectionMatrix() const {
     return projectionMatrix;
 }
 
+void Camera::setProjectionMatrix(const Matrix4x4f& mat) {
+    projectionMatrix = mat;
+    needsProjUpdate = true;
+}
+
 void Camera::update() {
     GLuint err = GL_NO_ERROR;
     err = glGetError();
@@ -65,10 +70,6 @@ void Camera::update() {
     }
 
     if (needsProjUpdate) {
-        float nearZ = 0.01f;
-        float farZ = 25.f;
-        projectionMatrix = Matrix4x4f::constructPerspectiveMat(fov, aspectRatio, nearZ, farZ);
-        
         for (int i = 0; i < (int)shaders.size(); i++) {
             shaders[i]->getMat4Uniform("projectionMatrix")->setValue(projectionMatrix);
         }
