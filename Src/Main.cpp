@@ -133,35 +133,7 @@ int main() {
     zAxis->color = Vector4f(0.f, 0.75f, 0.f, 1.f);
     
     // Shadows.
-    // The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer.
-    GLuint FramebufferName = 0;
-    glGenFramebuffers(1, &FramebufferName);
-    glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-
-    // Depth texture. Slower than a depth buffer, but you can sample it later in your shader
-    GLuint depthTexture;
-    glGenTextures(1, &depthTexture);
-    glBindTexture(GL_TEXTURE_2D, depthTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0,GL_DEPTH_COMPONENT16, 1024, 1024, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthTexture, 0);
-
-    glDrawBuffer(GL_NONE); // No color buffer is drawn to.
-
-    // Always check that our framebuffer is ok
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-        throw std::runtime_error("Framebuffer not ok.");
-    }
     
-    Vector3f lightDirection = Vector3f(0.f, -1.f, 0.f);
-    
-    // Compute the MVP matrix from the light's point of view.
-    Matrix4x4f depthProjectionMatrix = Matrix4x4f::constructOrthographicMat(20.f, 20.f, -10.f, 20.f);
-    Matrix4x4f depthViewMatrix = Matrix4x4f::constructViewMat(lightDirection, lightDirection.invert().normalize(), Vector3f(0.f, 1.f, 0.f));
 
     while (!glfwWindowShouldClose(window)) {
         while (timing->tickReady()) {
@@ -179,25 +151,13 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam->update();
         
-        depthPassShader->getMat4Uniform("depthViewMatrix")->setValue(depthViewMatrix);
-        depthPassShader->getMat4Uniform("depthProjectionMatrix")->setValue(depthProjectionMatrix);
-        grid->setShader(depthPassShader);
         grid->render();
-        car->setShader(depthPassShader);
         car->render();
         
         // Disable depth buffer here to the cartesian axes always show up over everything else.
         glDisable(GL_DEPTH_TEST);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-//        testTex->activate(0, imageShader);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, depthTexture);
-        imageShader->getIntUniform("tex0")->setValue(0);
-        imageShader->getMat4Uniform("projectionMatrix")->setValue(Matrix4x4f::constructOrthographicMat(2, 2, -1.f, 25.f));
+        testTex->activate(0, imageShader);
         quad->render();
-//        xAxis->render();
-//        yAxis->render();
-//        zAxis->render();
         glEnable(GL_DEPTH_TEST);
 
         glfwSwapBuffers(window);
