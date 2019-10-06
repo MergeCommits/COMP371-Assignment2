@@ -28,7 +28,7 @@ void Mesh::setGeometry(std::vector<float>& vertices, std::vector<int>& primitive
     needsUpload = true;
 }
 
-void Mesh::setShader(Shader *shd) {
+void Mesh::setShader(Shader* shd) {
     shader = shd;
 }
 

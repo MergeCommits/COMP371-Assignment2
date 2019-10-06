@@ -7,6 +7,6 @@ in vec2 fsUV;
 out vec4 outColor;
 
 void main() {
-    outColor = vec4(texture(tex0, fsUV).r);
-//    outColor = vec4(1.0);
+//    outColor = texture(tex0, fsUV);
+    outColor = vec4(1.0);
 }
