@@ -61,7 +61,7 @@ Car::Car(Shader* shd) {
     wheels[3]->setPosition(-2.5f, 0.f, -2.25f);
     
     for (int i = 0; i < 4; i++) {
-        wheels[i]->color = Vector4f(0.f, 0.f, 0.f, 1.f);
+        wheels[i]->color = Vector4f(0.2f, 0.2f, 0.2f, 1.f);
     }
 
     cubes.push_back(bottom);
@@ -158,6 +158,12 @@ void Car::walk(Car::WalkInput input, float speed) {
     
     if (targetDir.lengthSquared() < 0.01f) { return; }
     addPositionXZ(targetDir.normalize().multiply(speed));
+}
+
+void Car::setShader(Shader* shd) {
+    for (int i = 0; i < (int)cubes.size(); i++) {
+        cubes[i]->setShader(shd);
+    }
 }
 
 void Car::render() {

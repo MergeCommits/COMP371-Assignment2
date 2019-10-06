@@ -9,11 +9,12 @@ class Mesh;
 
 class Grid {
 private:
-    const float vertices[12] = {
-        -1.f, 0.f, -1.f,
-        -1.f, 0.f, 1.f,
-        1.f, 0.f, -1.f,
-        1.f, 0.f, 1.f
+    const float vertices[12 * 2] = {
+        // Positions     // Normals
+        -1.f, 0.f, -1.f, 0.f, 1.f, 0.f,
+        -1.f, 0.f, 1.f,  0.f, 1.f, 0.f,
+        1.f, 0.f, -1.f,  0.f, 1.f, 0.f,
+        1.f, 0.f, 1.f,   0.f, 1.f, 0.f
     };
     
     Mesh* mesh;
@@ -27,6 +28,7 @@ public:
 
     Grid(Shader* shd);
     
+    void setShader(Shader* shd);
     void render();
 };
 

@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "Cube.h"
 #include "Mesh.h"
 
@@ -9,16 +11,22 @@ Cube::Cube(Shader* shd) {
     
     mesh = new Mesh(shd);
     std::vector<float> verts;
-    for (int i = 0; i < 24; i++) {
+    for (int i = 0; i < 216; i++) {
         verts.push_back(vertices[i]);
     }
     std::vector<int> prims = {
-        0, 1, 3, 3, 1, 2,
-        1, 5, 2, 2, 5, 6,
-        5, 4, 6, 6, 4, 7,
-        4, 0, 7, 7, 0, 3,
-        3, 2, 7, 7, 2, 6,
-        4, 5, 0, 0, 5, 1
+        0, 1, 2,
+        3, 4, 5,
+        6, 7, 8,
+        9, 10, 11,
+        12, 13, 14,
+        15, 16, 17,
+        18, 19, 20,
+        21, 22, 23,
+        24, 25, 26,
+        27, 28, 29,
+        30, 31, 32,
+        33, 34, 35
     };
     
     mesh->setGeometry(verts, prims);
@@ -61,6 +69,10 @@ void Cube::addRotationOriginY(float bruh) {
 
 void Cube::addRotationZ(float bruh) {
     rotation.z += bruh;
+}
+
+void Cube::setShader(Shader* shd) {
+    mesh->setShader(shd);
 }
 
 void Cube::render() {

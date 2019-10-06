@@ -1,4 +1,5 @@
 #include <cmath>
+#include <stdexcept>
 
 #include "Camera.h"
 #include "../Math/MathUtil.h"
@@ -66,6 +67,10 @@ void Camera::update() {
 
         needsProjUpdate = false;
     }
+}
+
+Vector3f Camera::getPosition() const {
+    return position;
 }
 
 void Camera::setPosition(const Vector3f& pos) {

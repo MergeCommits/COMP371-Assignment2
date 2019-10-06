@@ -15,12 +15,16 @@ public:
             Values();
             Matrix4x4f matrixVal;
             Vector4f vec4Val;
+            Vector3f vec3Val;
+            int integerVal;
         };
         Values value;
         
         enum class Kind {
             Matrix,
-            Vector4f
+            Vector4f,
+            Vector3f,
+            Integer
         };
         String name;
         Kind type;
@@ -30,6 +34,8 @@ public:
         
         void setValue(Matrix4x4f value);
         void setValue(Vector4f value);
+        void setValue(Vector3f value);
+        void setValue(int value);
     };
     
 private:
@@ -52,11 +58,14 @@ private:
 public:
     Shader(const String& shaderFolder);
     ~Shader();
-
+    
+    void addVec2VertexInput(const String& name);
     void addVec3VertexInput(const String& name);
     void addVec4VertexInput(const String& name);
     Uniform* getMat4Uniform(const String& name);
     Uniform* getVector4fUniform(const String& name);
+    Uniform* getVector3fUniform(const String& name);
+    Uniform* getIntUniform(const String& name);
     void use() const;
     void unbindVertexInputs();
 };

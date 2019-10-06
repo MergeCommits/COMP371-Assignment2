@@ -111,6 +111,10 @@ Vector3f Vector3f::normalize() const {
     return multiply(1.f/length());
 }
 
+Vector3f Vector3f::invert() const {
+    return Vector3f(-x, -y, -z);
+}
+
 Vector3f Vector3f::reflect(const Vector3f& n) const {
     Vector3f reflectedVector = normalize();
     reflectedVector = n.multiply(2.f*reflectedVector.dotProduct(n)).subtract(reflectedVector);

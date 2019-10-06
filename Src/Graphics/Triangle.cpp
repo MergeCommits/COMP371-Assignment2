@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include <stdexcept>
+#include <stdexcept>
 
 #include "Triangle.h"
 #include "Mesh.h"

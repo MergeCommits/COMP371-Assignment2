@@ -39,6 +39,8 @@ public:
     void addRotationZ(float bruh);
     void setRenderingMode(GLenum mode);
     
+    void setShader(Shader* shd);
+    
     void render();
 };
 

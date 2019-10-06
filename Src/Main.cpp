@@ -19,6 +19,7 @@
 #include "Timing.h"
 #include "Graphics/Car.h"
 #include "Graphics/Grid.h"
+#include "Graphics/Quad.h"
 #include "Graphics/Axis.h"
 #include "Graphics/Shader.h"
 #include "Graphics/Camera.h"
@@ -82,34 +83,43 @@ int main() {
     
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+//    glEnable(GL_CULL_FACE);
+//    glCullFace(GL_BACK);
     
     // Fixed time steps.
     Timing* timing = new Timing(60);
     
     // Camera.
     Camera* cam = new Camera((float)width / height);
-    cam->setPosition(Vector3f(0.f, 5.f, -10.f));
+    cam->setPosition(Vector3f(0.f, 5.f, -20.f));
 
     // Shaders.
-    Shader* shd  = new Shader("Shaders/default/");
-    shd->addVec3VertexInput("position");
-    cam->addShader(shd);
+    Shader* defaultShader = new Shader("Shaders/default/");
+    defaultShader->addVec3VertexInput("position");
+    defaultShader->addVec3VertexInput("normal");
+    cam->addShader(defaultShader);
+    
+    GLuint err = glGetError();
+    if (err != GL_NO_ERROR) {
+        throw std::runtime_error("Failed to create shaders.");
+    }
 
     // Models.
-    Car* car = new Car(shd);
+    Car* car = new Car(defaultShader);
     car->addRotationY(MathUtil::PI / -2.f);
-    Grid* grid = new Grid(shd);
-    grid->scale = Vector3f(50.f, 1.f, 50.f); // 100x100 grid.
+    // 100x100 grid.
+    Grid* grid = new Grid(defaultShader);
+    grid->scale = Vector3f(50.f, 1.f, 50.f);
     
-    Axis* xAxis = new Axis(shd);
+//    Quad* quad = new Quad(debugQuadShader);
+    
+    Axis* xAxis = new Axis(defaultShader);
     xAxis->color = Vector4f(1.f, 0.f, 0.f, 1.f);
     xAxis->rotation = Vector3f(0.f, MathUtil::PI / 2.f, 0.f);
-    Axis* yAxis = new Axis(shd);
+    Axis* yAxis = new Axis(defaultShader);
     yAxis->color = Vector4f(0.f, 0.f, 1.f, 1.f);
     yAxis->rotation = Vector3f(MathUtil::PI / -2.f, 0.f, 0.f);
-    Axis* zAxis = new Axis(shd);
+    Axis* zAxis = new Axis(defaultShader);
     zAxis->color = Vector4f(0.f, 0.75f, 0.f, 1.f);
 
     while (!glfwWindowShouldClose(window)) {
@@ -127,16 +137,16 @@ int main() {
         // Draw code.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam->update();
-
-        car->render();
+        
         grid->render();
+        car->render();
         
         // Disable depth buffer here to the cartesian axes always show up over everything else.
-        glDisable(GL_DEPTH_TEST);
-        xAxis->render();
-        yAxis->render();
-        zAxis->render();
-        glEnable(GL_DEPTH_TEST);
+//        glDisable(GL_DEPTH_TEST);
+//        xAxis->render();
+//        yAxis->render();
+//        zAxis->render();
+//        glEnable(GL_DEPTH_TEST);
 
         glfwSwapBuffers(window);
         
@@ -151,7 +161,7 @@ int main() {
     delete xAxis;
     delete yAxis;
     delete zAxis;
-    delete shd;
+    delete defaultShader;
 
     // Shutdown GLFW
     glfwTerminate();

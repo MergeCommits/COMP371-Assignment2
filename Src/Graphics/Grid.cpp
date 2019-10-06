@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "Grid.h"
 #include "Mesh.h"
 
@@ -9,7 +11,7 @@ Grid::Grid(Shader* shd) {
     
     mesh = new Mesh(shd);
     std::vector<float> verts;
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 24; i++) {
         verts.push_back(vertices[i]);
     }
     std::vector<int> prims = {
@@ -23,6 +25,10 @@ Grid::Grid(Shader* shd) {
     colorUniform = shd->getVector4fUniform("fsColor");
     color = Vector4f(1.f, 1.f, 1.f, 1.f);
     scale = Vector3f::one;
+}
+
+void Grid::setShader(Shader* shd) {
+    mesh->setShader(shd);
 }
 
 void Grid::render() {

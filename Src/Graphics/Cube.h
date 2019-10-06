@@ -7,15 +7,50 @@ class Mesh;
 
 class Cube {
 private:
-    const float vertices[24] = {
-        -0.5f, 0.f, -0.5f,
-        0.5f, 0.f, -0.5f,
-        0.5f, 1.f, -0.5f,
-        -0.5f, 1.f, -0.5f,
-        -0.5f, 0.f, 0.5f,
-        0.5f, 0.f, 0.5f,
-        0.5f, 1.f, 0.5f,
-        -0.5f, 1.f, 0.5f
+    const float vertices[216] = {
+        // Positions         // Normals
+        // back face
+        -0.5f, 0.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 0.0f, 0.0f, // bottom-left
+         0.5f, 1.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 1.0f, 1.0f, // top-right
+         0.5f, 0.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 1.0f, 0.0f, // bottom-right
+         0.5f, 1.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 1.0f, 1.0f, // top-right
+        -0.5f, 0.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 0.0f, 0.0f, // bottom-left
+        -0.5f, 1.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 0.0f, 1.0f, // top-left
+        // front face
+        -0.5f, 0.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 0.0f, 0.0f, // bottom-left
+         0.5f, 0.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 1.0f, 0.0f, // bottom-right
+         0.5f, 1.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 1.0f, 1.0f, // top-right
+         0.5f, 1.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 1.0f, 1.0f, // top-right
+        -0.5f, 1.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 0.0f, 1.0f, // top-left
+        -0.5f, 0.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 0.0f, 0.0f, // bottom-left
+        // left face
+        -0.5f, 1.0f,  0.5f, -1.0f,  0.0f,  0.0f, // 1.0f, 0.0f, // top-right
+        -0.5f, 1.0f, -0.5f, -1.0f,  0.0f,  0.0f, // 1.0f, 1.0f, // top-left
+        -0.5f, 0.0f, -0.5f, -1.0f,  0.0f,  0.0f, // 0.0f, 1.0f, // bottom-left
+        -0.5f, 0.0f, -0.5f, -1.0f,  0.0f,  0.0f, // 0.0f, 1.0f, // bottom-left
+        -0.5f, 0.0f,  0.5f, -1.0f,  0.0f,  0.0f, // 0.0f, 0.0f, // bottom-right
+        -0.5f, 1.0f,  0.5f, -1.0f,  0.0f,  0.0f, // 1.0f, 0.0f, // top-right
+        // right face
+         0.5f, 1.0f,  0.5f,  1.0f,  0.0f,  0.0f, // 1.0f, 0.0f, // top-left
+         0.5f, 0.0f, -0.5f,  1.0f,  0.0f,  0.0f, // 0.0f, 1.0f, // bottom-right
+         0.5f, 1.0f, -0.5f,  1.0f,  0.0f,  0.0f, // 1.0f, 1.0f, // top-right
+         0.5f, 0.0f, -0.5f,  1.0f,  0.0f,  0.0f, // 0.0f, 1.0f, // bottom-right
+         0.5f, 1.0f,  0.5f,  1.0f,  0.0f,  0.0f, // 1.0f, 0.0f, // top-left
+         0.5f, 0.0f,  0.5f,  1.0f,  0.0f,  0.0f, // 0.0f, 0.0f, // bottom-left
+        // bottom face
+        -0.5f, 0.0f, -0.5f,  0.0f, -1.0f,  0.0f, // 0.0f, 1.0f, // top-right
+         0.5f, 0.0f, -0.5f,  0.0f, -1.0f,  0.0f, // 1.0f, 1.0f, // top-left
+         0.5f, 0.0f,  0.5f,  0.0f, -1.0f,  0.0f, // 1.0f, 0.0f, // bottom-left
+         0.5f, 0.0f,  0.5f,  0.0f, -1.0f,  0.0f, // 1.0f, 0.0f, // bottom-left
+        -0.5f, 0.0f,  0.5f,  0.0f, -1.0f,  0.0f, // 0.0f, 0.0f, // bottom-right
+        -0.5f, 0.0f, -0.5f,  0.0f, -1.0f,  0.0f, // 0.0f, 1.0f, // top-right
+        // top face
+        -0.5f, 1.0f, -0.5f,  0.0f,  1.0f,  0.0f, // 0.0f, 1.0f, // top-left
+         0.5f, 1.0f , 0.5f,  0.0f,  1.0f,  0.0f, // 1.0f, 0.0f, // bottom-right
+         0.5f, 1.0f, -0.5f,  0.0f,  1.0f,  0.0f, // 1.0f, 1.0f, // top-right
+         0.5f, 1.0f,  0.5f,  0.0f,  1.0f,  0.0f, // 1.0f, 0.0f, // bottom-right
+        -0.5f, 1.0f, -0.5f,  0.0f,  1.0f,  0.0f, // 0.0f, 1.0f, // top-left
+        -0.5f, 1.0f,  0.5f,  0.0f,  1.0f,  0.0f, // 0.0f, 0.0f  // bottom-left
     };
 
     Vector3f position;
@@ -25,7 +60,7 @@ private:
     // Rotations relative to an arbitrary origin.
     Vector3f rotationOrigin;
     Vector3f rotation;
-    
+
     Mesh* mesh;
     Shader::Uniform* worldMat;
     Shader::Uniform* colorUniform;
@@ -43,7 +78,9 @@ public:
     void addRotationY(float bruh);
     void addRotationOriginY(float bruh);
     void addRotationZ(float bruh);
-    
+
+    void setShader(Shader* shd);
+
     void render();
     void render(const Vector3f& origin);
 };

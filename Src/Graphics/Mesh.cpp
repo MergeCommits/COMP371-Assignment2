@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "Mesh.h"
 #include "Shader.h"
 
@@ -24,6 +26,10 @@ void Mesh::setGeometry(std::vector<float>& vertices, std::vector<int>& primitive
     mode = mod;
     
     needsUpload = true;
+}
+
+void Mesh::setShader(Shader *shd) {
+    shader = shd;
 }
 
 void Mesh::uploadData() {

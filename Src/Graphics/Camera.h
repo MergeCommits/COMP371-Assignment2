@@ -40,6 +40,7 @@ public:
 
     void update();
 
+    Vector3f getPosition() const;
     void setPosition(const Vector3f& pos);
     void setTilt(float rad);
     void addAngle(float xAngle, float yAngle);

@@ -51,6 +51,7 @@ public:
 
     Vector3f multiply(float s) const;
     Vector3f normalize() const;
+    Vector3f invert() const;
 
     Vector3f reflect(const Vector3f& n) const;
     float dotProduct(const Vector3f& b) const;

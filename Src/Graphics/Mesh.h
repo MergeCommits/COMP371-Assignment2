@@ -27,6 +27,7 @@ public:
     ~Mesh();
 
     void setGeometry(std::vector<float>& vertices, std::vector<int>& primitives, GLenum mod = GL_TRIANGLES);
+    void setShader(Shader* shd);
     void render();
 };
 

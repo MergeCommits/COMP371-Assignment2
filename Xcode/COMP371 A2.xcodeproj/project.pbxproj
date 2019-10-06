@@ -27,8 +27,10 @@
 		193AD10B232A9227007879F4 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 193AD10A232A9227007879F4 /* Mesh.cpp */; };
 		193AD10E232A94BC007879F4 /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 193AD10D232A94BC007879F4 /* Triangle.cpp */; };
 		19624A5323463662006291CE /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 19624A5223463651006291CE /* Shaders */; };
+		197123C82347F9F3006A7739 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 197123C72347F9F3006A7739 /* Texture.cpp */; };
 		198CE12A232AFD6E009C2FBF /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 198CE128232AFD6E009C2FBF /* Camera.cpp */; };
 		19BF9A60232DE8FA00FF13A1 /* Axis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19BF9A5E232DE8FA00FF13A1 /* Axis.cpp */; };
+		19F67BB223498A9100A02E77 /* Quad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19F67BB123498A9100A02E77 /* Quad.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -78,10 +80,14 @@
 		193AD10C232A94BC007879F4 /* Triangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
 		193AD10D232A94BC007879F4 /* Triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Triangle.cpp; sourceTree = "<group>"; };
 		19624A5223463651006291CE /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
+		197123C62347F9F3006A7739 /* Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		197123C72347F9F3006A7739 /* Texture.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		198CE128232AFD6E009C2FBF /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		198CE129232AFD6E009C2FBF /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		19BF9A5E232DE8FA00FF13A1 /* Axis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Axis.cpp; sourceTree = "<group>"; };
 		19BF9A5F232DE8FA00FF13A1 /* Axis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Axis.h; sourceTree = "<group>"; };
+		19F67BB023498A9100A02E77 /* Quad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad.h; sourceTree = "<group>"; };
+		19F67BB123498A9100A02E77 /* Quad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,8 +203,12 @@
 				193AD109232A9227007879F4 /* Mesh.h */,
 				193AD0F5232A83DF007879F4 /* Shader.cpp */,
 				193AD0F4232A83DF007879F4 /* Shader.h */,
+				197123C72347F9F3006A7739 /* Texture.cpp */,
+				197123C62347F9F3006A7739 /* Texture.h */,
 				193AD10D232A94BC007879F4 /* Triangle.cpp */,
 				193AD10C232A94BC007879F4 /* Triangle.h */,
+				19F67BB123498A9100A02E77 /* Quad.cpp */,
+				19F67BB023498A9100A02E77 /* Quad.h */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -260,9 +270,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				197123C82347F9F3006A7739 /* Texture.cpp in Sources */,
 				193AD0E8232A8276007879F4 /* MathUtil.cpp in Sources */,
 				193AD0EC232A8276007879F4 /* Main.cpp in Sources */,
 				198CE12A232AFD6E009C2FBF /* Camera.cpp in Sources */,
+				19F67BB223498A9100A02E77 /* Quad.cpp in Sources */,
 				193AD0E9232A8276007879F4 /* Vector.cpp in Sources */,
 				19240964232B292B0062AC03 /* Cube.cpp in Sources */,
 				193AD0E6232A8276007879F4 /* String.cpp in Sources */,
