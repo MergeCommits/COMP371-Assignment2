@@ -37,6 +37,14 @@ void Camera::addShader(Shader* shd) {
     needsProjUpdate = true;
 }
 
+Matrix4x4f Camera::getViewMatrix() const {
+    return viewMatrix;
+}
+
+Matrix4x4f Camera::getProjectionMatrix() const {
+    return projectionMatrix;
+}
+
 void Camera::update() {
     GLuint err = GL_NO_ERROR;
     err = glGetError();

@@ -150,11 +150,10 @@ int main() {
         // Draw code.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam->update();
-        
+
         grid->render();
         car->render();
         
-        // Disable depth buffer here to the cartesian axes always show up over everything else.
         glDisable(GL_DEPTH_TEST);
         testTex->activate(0, imageShader);
         quad->render();

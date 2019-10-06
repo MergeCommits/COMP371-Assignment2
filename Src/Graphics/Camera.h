@@ -37,6 +37,9 @@ public:
     Camera(float aspectRatio);
 
     void addShader(Shader* shd);
+    
+    Matrix4x4f getViewMatrix() const;
+    Matrix4x4f getProjectionMatrix() const;
 
     void update();
 
