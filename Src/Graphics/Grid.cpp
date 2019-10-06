@@ -10,6 +10,7 @@ Grid::Grid(Shader* shd) {
     }
     
     mesh = new Mesh(shd);
+    setShader(shd);
     std::vector<float> verts;
     for (int i = 0; i < 24; i++) {
         verts.push_back(vertices[i]);
@@ -21,14 +22,14 @@ Grid::Grid(Shader* shd) {
     
     mesh->setGeometry(verts, prims);
 
-    worldMat = shd->getMat4Uniform("modelMatrix");
-    colorUniform = shd->getVector4fUniform("fsColor");
     color = Vector4f(1.f, 1.f, 1.f, 1.f);
     scale = Vector3f::one;
 }
 
 void Grid::setShader(Shader* shd) {
     mesh->setShader(shd);
+    worldMat = shd->getMat4Uniform("modelMatrix");
+    colorUniform = shd->getVector4fUniform("fsColor");
 }
 
 void Grid::render() {

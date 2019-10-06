@@ -114,10 +114,10 @@ int main() {
     }
 
     // Models.
-    Car* car = new Car(defaultShader);
+    Car* car = new Car(depthPassShader);
     car->addRotationY(MathUtil::PI / -2.f);
     // 100x100 grid.
-    Grid* grid = new Grid(defaultShader);
+    Grid* grid = new Grid(depthPassShader);
     grid->scale = Vector3f(50.f, 1.f, 50.f);
     
     Quad* quad = new Quad(imageShader);
@@ -133,7 +133,27 @@ int main() {
     zAxis->color = Vector4f(0.f, 0.75f, 0.f, 1.f);
     
     // Shadows.
+    unsigned int depthMapFBO;
+    glGenFramebuffers(1, &depthMapFBO);
     
+    const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+
+    unsigned int depthMap;
+    glGenTextures(1, &depthMap);
+    glBindTexture(GL_TEXTURE_2D, depthMap);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    imageShader->getIntUniform("tex0")->setValue(0);
 
     while (!glfwWindowShouldClose(window)) {
         while (timing->tickReady()) {
@@ -150,12 +170,38 @@ int main() {
         // Draw code.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam->update();
+        
+        // 1. render depth of scene to texture (from light's perspective)
+        // --------------------------------------------------------------
+        Matrix4x4f depthViewMatrix = cam->getViewMatrix();
+        Matrix4x4f depthProjectionMatrix = cam->getProjectionMatrix();
+        // render scene from light's point of view
+        depthPassShader->getMat4Uniform("depthViewMatrix")->setValue(depthViewMatrix);
+        depthPassShader->getMat4Uniform("depthProjectionMatrix")->setValue(depthProjectionMatrix);
 
+        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        grid->setShader(depthPassShader);
         grid->render();
+        car->setShader(depthPassShader);
         car->render();
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        // reset viewport
+        glViewport(0, 0, width * 2, height * 2);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // render Depth map to quad for visual debugging
+        // ---------------------------------------------
+//        debugDepthQuad.use();
+//        debugDepthQuad.setFloat("near_plane", near_plane);
+//        debugDepthQuad.setFloat("far_plane", far_plane);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
         
         glDisable(GL_DEPTH_TEST);
-        testTex->activate(0, imageShader);
+//        testTex->activate(0, imageShader);
         quad->render();
         glEnable(GL_DEPTH_TEST);
 
