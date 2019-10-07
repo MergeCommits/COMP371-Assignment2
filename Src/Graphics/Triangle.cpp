@@ -29,7 +29,7 @@ Triangle::Triangle(Shader* shd) {
     mesh->setGeometry(verts, prims);
     
     worldMat = shd->getMat4Uniform("modelMatrix");
-    colorUniform = shd->getVector4fUniform("fsColor");
+    colorUniform = shd->getVec4fUniform("fsColor");
 }
 
 void Triangle::render() {

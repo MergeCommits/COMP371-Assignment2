@@ -149,7 +149,7 @@ Shader::Uniform* Shader::getMat4Uniform(const String& name) {
     return uf;
 }
 
-Shader::Uniform* Shader::getVector4fUniform(const String& name) {
+Shader::Uniform* Shader::getVec4fUniform(const String& name) {
     for (int i = 0; i < (int)uniformVars.size(); i++) {
         if (uniformVars[i]->name.equals(name)) {
             if (uniformVars[i]->type != Uniform::Kind::Vector4f) {
@@ -166,7 +166,7 @@ Shader::Uniform* Shader::getVector4fUniform(const String& name) {
     return uf;
 }
 
-Shader::Uniform* Shader::getVector3fUniform(const String& name) {
+Shader::Uniform* Shader::getVec3fUniform(const String& name) {
     for (int i = 0; i < (int)uniformVars.size(); i++) {
         if (uniformVars[i]->name.equals(name)) {
             if (uniformVars[i]->type != Uniform::Kind::Vector3f) {
@@ -195,6 +195,24 @@ Shader::Uniform* Shader::getIntUniform(const String& name) {
 
     // This isn't here, make it.
     Uniform* uf = new Uniform(Uniform::Kind::Integer, glGetUniformLocation(shaderProgramID, name.cstr()));
+    uf->name = name;
+    
+    uniformVars.push_back(uf);
+    return uf;
+}
+
+Shader::Uniform* Shader::getBoolUniform(const String& name) {
+    for (int i = 0; i < (int)uniformVars.size(); i++) {
+        if (uniformVars[i]->name.equals(name)) {
+            if (uniformVars[i]->type != Uniform::Kind::Boolean) {
+                throw std::runtime_error("Attempted to assign bool value to non-bool type!");
+            }
+            return uniformVars[i];
+        }
+    }
+
+    // This isn't here, make it.
+    Uniform* uf = new Uniform(Uniform::Kind::Boolean, glGetUniformLocation(shaderProgramID, name.cstr()));
     uf->name = name;
     
     uniformVars.push_back(uf);
@@ -240,7 +258,10 @@ void Shader::use() const {
                 glUniform3f(uf->location, uf->value.vec3Val.x, uf->value.vec3Val.y, uf->value.vec3Val.z);
             } break;
             case Uniform::Kind::Integer: {
-                glUniform1i(uf->location, uf->value.integerVal);
+                glUniform1i(uf->location, uf->value.intVal);
+            } break;
+            case Uniform::Kind::Boolean: {
+                glUniform1i(uf->location, (int)uf->value.boolVal);
             } break;
         }
 
@@ -289,5 +310,12 @@ void Shader::Uniform::setValue(int value) {
     if (type != Kind::Integer) {
         throw std::runtime_error("Attempted to assign int value to non-int type!");
     }
-    this->value.integerVal = value;
+    this->value.intVal = value;
+}
+
+void Shader::Uniform::setValue(bool value) {
+    if (type != Kind::Boolean) {
+        throw std::runtime_error("Attempted to assign bool value to non-bool type!");
+    }
+    this->value.boolVal = value;
 }

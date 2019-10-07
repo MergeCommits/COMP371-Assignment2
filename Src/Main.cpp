@@ -36,6 +36,9 @@ float prevMouseY = 0.f;
 float mouseXDiff = 0.f;
 float mouseYDiff = 0.f;
 
+// Whether to perform a depth pass for shadow mapping.
+bool enableShadows = true;
+
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam);
 
@@ -184,27 +187,30 @@ int main() {
         // 1. render depth of scene to texture (from light's perspective)
         // --------------------------------------------------------------
         // render scene from light's point of view
-        depthPassShader->getMat4Uniform("depthViewMatrix")->setValue(light->getViewMatrix());
-        depthPassShader->getMat4Uniform("depthProjectionMatrix")->setValue(light->getProjectionMatrix());
+        if (enableShadows) {
+            depthPassShader->getMat4Uniform("depthViewMatrix")->setValue(light->getViewMatrix());
+            depthPassShader->getMat4Uniform("depthProjectionMatrix")->setValue(light->getProjectionMatrix());
 
-        glViewport(0, 0, SHADOW_DIMENSIONS, SHADOW_DIMENSIONS);
-        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuffer);
-        glClear(GL_DEPTH_BUFFER_BIT);
-        grid->setShader(depthPassShader);
-        grid->render();
-        car->setShader(depthPassShader);
-        car->render();
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glViewport(0, 0, SHADOW_DIMENSIONS, SHADOW_DIMENSIONS);
+            glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuffer);
+            glClear(GL_DEPTH_BUFFER_BIT);
+            grid->setShader(depthPassShader);
+            grid->render();
+            car->setShader(depthPassShader);
+            car->render();
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        // reset viewport
-        glViewport(0, 0, width * 2, height * 2);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            // reset viewport
+            glViewport(0, 0, width * 2, height * 2);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        }
         
         // 2. render scene as normal using the generated depth/shadow map
         // --------------------------------------------------------------
         // set light uniforms
-        shadowPassShader->getVector3fUniform("cameraPosition")->setValue(cam->getPosition());
-        shadowPassShader->getVector3fUniform("lightPosition")->setValue(light->getPosition());
+        shadowPassShader->getBoolUniform("enableShadows")->setValue(enableShadows);
+        shadowPassShader->getVec3fUniform("cameraPosition")->setValue(cam->getPosition());
+        shadowPassShader->getVec3fUniform("lightPosition")->setValue(light->getPosition());
         shadowPassShader->getMat4Uniform("lightViewMatrix")->setValue(light->getViewMatrix());
         shadowPassShader->getMat4Uniform("lightProjectionMatrix")->setValue(light->getProjectionMatrix());
         glActiveTexture(GL_TEXTURE0);
@@ -271,7 +277,9 @@ void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
     }
 }
 
-bool spaceHit = false; // Used to determine whether the spacebar was HIT, as opposed to just pressed.
+// Used to determine whether a key was HIT, as opposed to just pressed.
+int lastKeySpaceState = GLFW_RELEASE;
+int lastKeyXState = GLFW_RELEASE;
 
 void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam) {
     // Cursor position.
@@ -281,11 +289,10 @@ void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam) {
     }
     
     // Teleport.
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !spaceHit) {
+    if (lastKeySpaceState == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
         car->addPositionXZ(Vector2f((std::rand() % 4) - 1.5f, (std::rand() % 4) - 1.5f));
-        spaceHit = true;
     }
-    if (spaceHit) { spaceHit = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS; }
+    lastKeySpaceState = glfwGetKey(window, GLFW_KEY_SPACE);
     
     // Movement.
     float speed = 5.f;
@@ -339,6 +346,12 @@ void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam) {
     if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) {
         car->setRenderingMode(GL_FILL);
     }
+    
+    // Toggle shadow map.
+    if (lastKeyXState == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
+        enableShadows = !enableShadows;
+    }
+    lastKeyXState = glfwGetKey(window, GLFW_KEY_X);
     
     // Camera orientation.
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {

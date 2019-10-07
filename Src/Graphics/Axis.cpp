@@ -21,7 +21,7 @@ Axis::Axis(Shader* shd) {
     mesh->setGeometry(verts, prims, GL_LINES);
 
     worldMat = shd->getMat4Uniform("modelMatrix");
-    colorUniform = shd->getVector4fUniform("fsColor");
+    colorUniform = shd->getVec4fUniform("fsColor");
     rotation = Vector3f::zero;
     color = Vector4f::one;
 }

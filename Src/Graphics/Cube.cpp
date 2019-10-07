@@ -73,7 +73,7 @@ void Cube::addRotationZ(float bruh) {
 void Cube::setShader(Shader* shd) {
     mesh->setShader(shd);
     worldMat = shd->getMat4Uniform("modelMatrix");
-    colorUniform = shd->getVector4fUniform("fsColor");
+    colorUniform = shd->getVec4fUniform("fsColor");
 }
 
 void Cube::render() {

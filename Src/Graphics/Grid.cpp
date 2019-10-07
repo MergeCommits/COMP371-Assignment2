@@ -29,7 +29,7 @@ Grid::Grid(Shader* shd) {
 void Grid::setShader(Shader* shd) {
     mesh->setShader(shd);
     worldMat = shd->getMat4Uniform("modelMatrix");
-    colorUniform = shd->getVector4fUniform("fsColor");
+    colorUniform = shd->getVec4fUniform("fsColor");
 }
 
 void Grid::render() {

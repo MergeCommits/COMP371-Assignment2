@@ -16,7 +16,8 @@ public:
             Matrix4x4f matrixVal;
             Vector4f vec4Val;
             Vector3f vec3Val;
-            int integerVal;
+            int intVal;
+            bool boolVal;
         };
         Values value;
         
@@ -24,7 +25,8 @@ public:
             Matrix,
             Vector4f,
             Vector3f,
-            Integer
+            Integer,
+            Boolean
         };
         String name;
         Kind type;
@@ -36,6 +38,7 @@ public:
         void setValue(Vector4f value);
         void setValue(Vector3f value);
         void setValue(int value);
+        void setValue(bool value);
     };
     
 private:
@@ -63,9 +66,10 @@ public:
     void addVec3VertexInput(const String& name);
     void addVec4VertexInput(const String& name);
     Uniform* getMat4Uniform(const String& name);
-    Uniform* getVector4fUniform(const String& name);
-    Uniform* getVector3fUniform(const String& name);
+    Uniform* getVec4fUniform(const String& name);
+    Uniform* getVec3fUniform(const String& name);
     Uniform* getIntUniform(const String& name);
+    Uniform* getBoolUniform(const String& name);
     void use() const;
     void unbindVertexInputs();
 };

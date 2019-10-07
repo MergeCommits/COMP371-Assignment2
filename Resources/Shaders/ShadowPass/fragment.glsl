@@ -6,13 +6,14 @@ in vec4 fsPositionLightSpace;
 
 uniform sampler2D shadowMap;
 
+uniform bool enableShadows;
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
 uniform vec4 fsColor;
 
 out vec4 outColor;
 
-float shadowCalculation(vec4 fragPosLightSpace) {
+float shadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDirection) {
     // perform perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
     // transform to [0,1] range
@@ -22,9 +23,7 @@ float shadowCalculation(vec4 fragPosLightSpace) {
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // calculate bias (based on depth map resolution and slope)
-    vec3 normal = normalize(fsNormal);
-    vec3 lightDir = normalize(lightPosition - fsPosition);
-    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
+    float bias = max(0.05 * (1.0 - dot(normal, lightDirection)), 0.005);
     // check whether current frag pos is in shadow
     // float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
     // PCF
@@ -33,14 +32,14 @@ float shadowCalculation(vec4 fragPosLightSpace) {
     for (int x = -1; x <= 1; ++x) {
         for (int y = -1; y <= 1; ++y) {
             float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
-            shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;
+            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
         }
     }
     shadow /= 9.0;
     
-    // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
-    if (projCoords.z > 1.0) {
-        shadow = 0.0;
+    // Keep the shadow at 0.0 when outside the light's frustum.
+    if (projCoords.z > 1.0f) {
+        shadow = 0.0f;
     }
         
     return shadow;
@@ -67,7 +66,7 @@ void main() {
     
     vec3 specularColor = vec3(0.0f);
     if (phongSpec > 0.0f) {
-        float shineCoefficient = 64.0f;
+        float shineCoefficient = 32.0f;
 //        vec3 halfwayDirection = normalize(lightDirection + viewDirection);
         phongSpec = pow(phongSpec, shineCoefficient);
         specularColor = phongSpec * lightColor;
@@ -75,7 +74,10 @@ void main() {
     
     // TODO: Figure out wtf this means.
     // Calculate shadow.
-    float shadow = shadowCalculation(fsPositionLightSpace);
+    float shadow = 0.0f;
+    if (enableShadows) {
+        shadow = shadowCalculation(fsPositionLightSpace, normal, lightDirection);
+    }
     vec3 lighting = (ambientColor + (1.0 - shadow) * (diffuseColor + specularColor)) * color;
     
     outColor = vec4(lighting, 1.0);
