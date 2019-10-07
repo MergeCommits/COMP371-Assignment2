@@ -1,9 +1,8 @@
 #version 330 core
 
-// Ouput data
-out float fragmentdepth;
+out float outDepth;
 
 void main(){
-    // Not really needed, OpenGL does it anyway
-    fragmentdepth = gl_FragCoord.z;
+    // Not really needed, OpenGL does it anyway.
+    outDepth = gl_FragCoord.z;
 }

@@ -84,15 +84,18 @@ int main() {
     
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_CULL_FACE);
-//    glCullFace(GL_BACK);
     
     // Fixed time steps.
     Timing* timing = new Timing(60);
     
-    // Camera.
+    // Cameras.
     Camera* cam = new Camera((float)width / height);
     cam->setPosition(Vector3f(0.f, 5.f, -20.f));
+    
+    Camera* light = new Camera(1.f);
+    light->setPosition(Vector3f(0.f, 30.f, 0.f));
+    light->addAngle(0.f, MathUtil::PI / -2.f);
+    light->setProjectionMatrix(Matrix4x4f::constructOrthographicMat(100.f, 100.f, 0.01f, 50.f));
 
     // Shaders.
     Shader* defaultShader = new Shader("Shaders/default/");
@@ -108,6 +111,11 @@ int main() {
     depthPassShader->addVec3VertexInput("position");
     depthPassShader->addVec3VertexInput("normal");
     
+    Shader* shadowPassShader = new Shader("Shaders/ShadowPass/");
+    shadowPassShader->addVec3VertexInput("position");
+    shadowPassShader->addVec3VertexInput("normal");
+    cam->addShader(shadowPassShader);
+    
     GLuint err = glGetError();
     if (err != GL_NO_ERROR) {
         throw std::runtime_error("Failed to create shaders.");
@@ -120,45 +128,41 @@ int main() {
     Grid* grid = new Grid(depthPassShader);
     grid->scale = Vector3f(50.f, 1.f, 50.f);
     
-    Quad* quad = new Quad(imageShader);
-    Texture* testTex = new Texture("Textures/test.png");
+//    Quad* quad = new Quad(imageShader);
+//    Texture* testTex = new Texture("Textures/test.png");
     
-    Axis* xAxis = new Axis(defaultShader);
-    xAxis->color = Vector4f(1.f, 0.f, 0.f, 1.f);
-    xAxis->rotation = Vector3f(0.f, MathUtil::PI / 2.f, 0.f);
-    Axis* yAxis = new Axis(defaultShader);
-    yAxis->color = Vector4f(0.f, 0.f, 1.f, 1.f);
-    yAxis->rotation = Vector3f(MathUtil::PI / -2.f, 0.f, 0.f);
-    Axis* zAxis = new Axis(defaultShader);
-    zAxis->color = Vector4f(0.f, 0.75f, 0.f, 1.f);
+//    Axis* xAxis = new Axis(defaultShader);
+//    xAxis->color = Vector4f(1.f, 0.f, 0.f, 1.f);
+//    xAxis->rotation = Vector3f(0.f, MathUtil::PI / 2.f, 0.f);
+//    Axis* yAxis = new Axis(defaultShader);
+//    yAxis->color = Vector4f(0.f, 0.f, 1.f, 1.f);
+//    yAxis->rotation = Vector3f(MathUtil::PI / -2.f, 0.f, 0.f);
+//    Axis* zAxis = new Axis(defaultShader);
+//    zAxis->color = Vector4f(0.f, 0.75f, 0.f, 1.f);
     
     // Shadows.
-    unsigned int depthMapFBO;
-    glGenFramebuffers(1, &depthMapFBO);
+    GLuint depthMapFrameBuffer;
+    glGenFramebuffers(1, &depthMapFrameBuffer);
     
-    const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+    GLuint SHADOW_DIMENSIONS = 2048;
 
-    unsigned int depthMap;
-    glGenTextures(1, &depthMap);
-    glBindTexture(GL_TEXTURE_2D, depthMap);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    GLuint depthMapTextureID;
+    glGenTextures(1, &depthMapTextureID);
+    glBindTexture(GL_TEXTURE_2D, depthMapTextureID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_DIMENSIONS, SHADOW_DIMENSIONS, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
-    glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMapTextureID, 0);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-    imageShader->getIntUniform("tex0")->setValue(0);
     
-    Camera* light = new Camera((float)width / height);
-    light->addAngle(0.f, MathUtil::PI / -2.f);
-    light->setProjectionMatrix(Matrix4x4f::constructOrthographicMat(50.f, 50.f, 0.01f, 50.f));
-    light->update();
+    imageShader->getIntUniform("tex0")->setValue(0);
+    shadowPassShader->getIntUniform("shadowMap")->setValue(0);
 
     while (!glfwWindowShouldClose(window)) {
         while (timing->tickReady()) {
@@ -175,6 +179,7 @@ int main() {
         // Draw code.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam->update();
+        light->update();
         
         // 1. render depth of scene to texture (from light's perspective)
         // --------------------------------------------------------------
@@ -182,8 +187,8 @@ int main() {
         depthPassShader->getMat4Uniform("depthViewMatrix")->setValue(light->getViewMatrix());
         depthPassShader->getMat4Uniform("depthProjectionMatrix")->setValue(light->getProjectionMatrix());
 
-        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glViewport(0, 0, SHADOW_DIMENSIONS, SHADOW_DIMENSIONS);
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuffer);
         glClear(GL_DEPTH_BUFFER_BIT);
         grid->setShader(depthPassShader);
         grid->render();
@@ -194,16 +199,35 @@ int main() {
         // reset viewport
         glViewport(0, 0, width * 2, height * 2);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // render Depth map to quad for visual debugging
-        // ---------------------------------------------
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, depthMap);
         
-        glDisable(GL_DEPTH_TEST);
-        quad->render();
-        glEnable(GL_DEPTH_TEST);
+        // 2. render scene as normal using the generated depth/shadow map
+        // --------------------------------------------------------------
+        // set light uniforms
+        shadowPassShader->getVector3fUniform("cameraPosition")->setValue(cam->getPosition());
+        shadowPassShader->getVector3fUniform("lightPosition")->setValue(light->getPosition());
+        shadowPassShader->getMat4Uniform("lightViewMatrix")->setValue(light->getViewMatrix());
+        shadowPassShader->getMat4Uniform("lightProjectionMatrix")->setValue(light->getProjectionMatrix());
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, depthMapTextureID);
+        grid->setShader(shadowPassShader);
+        grid->render();
+        car->setShader(shadowPassShader);
+        car->render();
+        
+//        glDisable(GL_DEPTH_TEST);
+//        xAxis->render();
+//        yAxis->render();
+//        zAxis->render();
+//        glEnable(GL_DEPTH_TEST);
 
+//        // render Depth map to quad for visual debugging
+//        // ---------------------------------------------
+//        glActiveTexture(GL_TEXTURE0);
+//        glBindTexture(GL_TEXTURE_2D, depthMap);
+//
+//        glDisable(GL_DEPTH_TEST);
+//        quad->render();
+//        glEnable(GL_DEPTH_TEST);
         glfwSwapBuffers(window);
         
         // Get elapsed seconds since last run.
@@ -212,15 +236,18 @@ int main() {
     }
 
     delete cam;
+    delete light;
     delete car;
     delete grid;
-    delete xAxis;
-    delete yAxis;
-    delete zAxis;
+//    delete xAxis;
+//    delete yAxis;
+//    delete zAxis;
     delete defaultShader;
     delete imageShader;
     delete depthPassShader;
-    delete testTex;
+    delete shadowPassShader;
+//    delete quad;
+//    delete testTex;
 
     // Shutdown GLFW
     glfwTerminate();
