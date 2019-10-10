@@ -134,14 +134,14 @@ int main() {
 //    Quad* quad = new Quad(imageShader);
 //    Texture* testTex = new Texture("Textures/test.png");
     
-//    Axis* xAxis = new Axis(defaultShader);
-//    xAxis->color = Vector4f(1.f, 0.f, 0.f, 1.f);
-//    xAxis->rotation = Vector3f(0.f, MathUtil::PI / 2.f, 0.f);
-//    Axis* yAxis = new Axis(defaultShader);
-//    yAxis->color = Vector4f(0.f, 0.f, 1.f, 1.f);
-//    yAxis->rotation = Vector3f(MathUtil::PI / -2.f, 0.f, 0.f);
-//    Axis* zAxis = new Axis(defaultShader);
-//    zAxis->color = Vector4f(0.f, 0.75f, 0.f, 1.f);
+    Axis* xAxis = new Axis(defaultShader);
+    xAxis->color = Vector4f(1.f, 0.f, 0.f, 1.f);
+    xAxis->rotation = Vector3f(0.f, MathUtil::PI / 2.f, 0.f);
+    Axis* yAxis = new Axis(defaultShader);
+    yAxis->color = Vector4f(0.f, 0.f, 1.f, 1.f);
+    yAxis->rotation = Vector3f(MathUtil::PI / -2.f, 0.f, 0.f);
+    Axis* zAxis = new Axis(defaultShader);
+    zAxis->color = Vector4f(0.f, 0.75f, 0.f, 1.f);
     
     // Shadows.
     GLuint depthMapFrameBuffer;
@@ -184,9 +184,7 @@ int main() {
         cam->update();
         light->update();
         
-        // 1. render depth of scene to texture (from light's perspective)
-        // --------------------------------------------------------------
-        // render scene from light's point of view
+        // Render scene from light's point of view into a depth map.
         if (enableShadows) {
             depthPassShader->getMat4Uniform("depthViewMatrix")->setValue(light->getViewMatrix());
             depthPassShader->getMat4Uniform("depthProjectionMatrix")->setValue(light->getProjectionMatrix());
@@ -205,9 +203,7 @@ int main() {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         
-        // 2. render scene as normal using the generated depth/shadow map
-        // --------------------------------------------------------------
-        // set light uniforms
+        // Render the scene from the camera's position.
         shadowPassShader->getBoolUniform("enableShadows")->setValue(enableShadows);
         shadowPassShader->getVec3fUniform("cameraPosition")->setValue(cam->getPosition());
         shadowPassShader->getVec3fUniform("lightPosition")->setValue(light->getPosition());
@@ -220,11 +216,11 @@ int main() {
         car->setShader(shadowPassShader);
         car->render();
         
-//        glDisable(GL_DEPTH_TEST);
-//        xAxis->render();
-//        yAxis->render();
-//        zAxis->render();
-//        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_DEPTH_TEST);
+        xAxis->render();
+        yAxis->render();
+        zAxis->render();
+        glEnable(GL_DEPTH_TEST);
 
 //        // render Depth map to quad for visual debugging
 //        // ---------------------------------------------
@@ -245,9 +241,9 @@ int main() {
     delete light;
     delete car;
     delete grid;
-//    delete xAxis;
-//    delete yAxis;
-//    delete zAxis;
+    delete xAxis;
+    delete yAxis;
+    delete zAxis;
     delete defaultShader;
     delete imageShader;
     delete depthPassShader;

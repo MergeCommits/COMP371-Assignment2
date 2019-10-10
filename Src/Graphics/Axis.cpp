@@ -11,7 +11,7 @@ Axis::Axis(Shader* shd) {
     
     mesh = new Mesh(shd);
     std::vector<float> verts;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 12; i++) {
         verts.push_back(vertices[i]);
     }
     std::vector<int> prims = {

@@ -7,9 +7,10 @@ class Mesh;
 
 class Axis {
 private:
-    const float vertices[6] = {
-        0.f, 0.f, 0.f,
-        0.f, 0.f, -1.f
+    const float vertices[12] = {
+        // Position.    // Normal.
+        0.f, 0.f, 0.f,  0.f, 1.f, 0.f,
+        0.f, 0.f, -1.f, 0.f, 1.f, 0.f
     };
 
     Mesh* mesh;
