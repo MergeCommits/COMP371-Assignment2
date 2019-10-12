@@ -39,6 +39,9 @@ float mouseYDiff = 0.f;
 // Whether to perform a depth pass for shadow mapping.
 bool enableShadows = true;
 
+// Whether to render the depth map to a texture for debugging.
+bool debugDepthMap = false;
+
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam);
 
@@ -98,6 +101,7 @@ int main() {
     Camera* light = new Camera(1.f);
     light->setPosition(Vector3f(0.f, 30.f, 0.f));
     light->addAngle(0.f, MathUtil::PI / -2.f);
+//    light->setProjectionMatrix(Matrix4x4f::constructPerspectiveMat(MathUtil::degToRad(70.f), 1.f, 0.01f, 50.f));
     light->setProjectionMatrix(Matrix4x4f::constructOrthographicMat(100.f, 100.f, 0.01f, 50.f));
 
     // Shaders.
@@ -131,8 +135,8 @@ int main() {
     Grid* grid = new Grid(depthPassShader);
     grid->scale = Vector3f(50.f, 1.f, 50.f);
     
-//    Quad* quad = new Quad(imageShader);
-//    Texture* testTex = new Texture("Textures/test.png");
+    Quad* quad = new Quad(imageShader);
+    Texture* testTex = new Texture("Textures/test.png");
     
     Axis* xAxis = new Axis(defaultShader);
     xAxis->color = Vector4f(1.f, 0.f, 0.f, 1.f);
@@ -203,33 +207,35 @@ int main() {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         
-        // Render the scene from the camera's position.
-        shadowPassShader->getBoolUniform("enableShadows")->setValue(enableShadows);
-        shadowPassShader->getVec3fUniform("cameraPosition")->setValue(cam->getPosition());
-        shadowPassShader->getVec3fUniform("lightPosition")->setValue(light->getPosition());
-        shadowPassShader->getMat4Uniform("lightViewMatrix")->setValue(light->getViewMatrix());
-        shadowPassShader->getMat4Uniform("lightProjectionMatrix")->setValue(light->getProjectionMatrix());
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, depthMapTextureID);
-        grid->setShader(shadowPassShader);
-        grid->render();
-        car->setShader(shadowPassShader);
-        car->render();
-        
-        glDisable(GL_DEPTH_TEST);
-        xAxis->render();
-        yAxis->render();
-        zAxis->render();
-        glEnable(GL_DEPTH_TEST);
+        if (!debugDepthMap) {
+            // Render the scene from the camera's position.
+            shadowPassShader->getBoolUniform("enableShadows")->setValue(enableShadows);
+            shadowPassShader->getVec3fUniform("cameraPosition")->setValue(cam->getPosition());
+            shadowPassShader->getVec3fUniform("lightPosition")->setValue(light->getPosition());
+            shadowPassShader->getMat4Uniform("lightViewMatrix")->setValue(light->getViewMatrix());
+            shadowPassShader->getMat4Uniform("lightProjectionMatrix")->setValue(light->getProjectionMatrix());
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, depthMapTextureID);
+            grid->setShader(shadowPassShader);
+            grid->render();
+            car->setShader(shadowPassShader);
+            car->render();
 
-//        // render Depth map to quad for visual debugging
-//        // ---------------------------------------------
-//        glActiveTexture(GL_TEXTURE0);
-//        glBindTexture(GL_TEXTURE_2D, depthMap);
-//
-//        glDisable(GL_DEPTH_TEST);
-//        quad->render();
-//        glEnable(GL_DEPTH_TEST);
+            glDisable(GL_DEPTH_TEST);
+            xAxis->render();
+            yAxis->render();
+            zAxis->render();
+            glEnable(GL_DEPTH_TEST);
+        } else {
+            // Render depth map to quad for debugging.
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, depthMapTextureID);
+
+            glDisable(GL_DEPTH_TEST);
+            quad->render();
+            glEnable(GL_DEPTH_TEST);
+        }
+
         glfwSwapBuffers(window);
         
         // Get elapsed seconds since last run.
@@ -248,8 +254,8 @@ int main() {
     delete imageShader;
     delete depthPassShader;
     delete shadowPassShader;
-//    delete quad;
-//    delete testTex;
+    delete quad;
+    delete testTex;
 
     // Shutdown GLFW
     glfwTerminate();
@@ -276,6 +282,17 @@ void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
 // Used to determine whether a key was HIT, as opposed to just pressed.
 int lastKeySpaceState = GLFW_RELEASE;
 int lastKeyXState = GLFW_RELEASE;
+int lastKeyKState = GLFW_RELEASE;
+
+static bool inputHit(GLFWwindow* window, int key, int& lastKeyState) {
+    int prevState = lastKeyState;
+    lastKeyState = glfwGetKey(window, key);
+    if (prevState == GLFW_RELEASE) {
+        return lastKeyState == GLFW_PRESS;
+    }
+    
+    return false;
+}
 
 void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam) {
     // Cursor position.
@@ -285,10 +302,9 @@ void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam) {
     }
     
     // Teleport.
-    if (lastKeySpaceState == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+    if (inputHit(window, GLFW_KEY_SPACE, lastKeySpaceState)) {
         car->addPositionXZ(Vector2f((std::rand() % 4) - 1.5f, (std::rand() % 4) - 1.5f));
     }
-    lastKeySpaceState = glfwGetKey(window, GLFW_KEY_SPACE);
     
     // Movement.
     float speed = 5.f;
@@ -344,10 +360,14 @@ void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam) {
     }
     
     // Toggle shadow map.
-    if (lastKeyXState == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
+    if (inputHit(window, GLFW_KEY_X, lastKeyXState)) {
         enableShadows = !enableShadows;
     }
-    lastKeyXState = glfwGetKey(window, GLFW_KEY_X);
+    
+    // Toggle depth map view.
+    if (inputHit(window, GLFW_KEY_K, lastKeyKState)) {
+        debugDepthMap = !debugDepthMap;
+    }
     
     // Camera orientation.
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {

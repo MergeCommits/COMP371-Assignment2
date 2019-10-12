@@ -2,7 +2,6 @@
 
 out float outDepth;
 
-void main(){
-    // Not really needed, OpenGL does it anyway.
+void main() {
     outDepth = gl_FragCoord.z;
 }
