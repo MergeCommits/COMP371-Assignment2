@@ -40,6 +40,9 @@ float mouseYDiff = 0.f;
 // Whether to perform a depth pass for shadow mapping.
 bool enableShadows = true;
 
+// Whether to use texture colors or vertex colors.
+bool enableTextures = true;
+
 // Whether to render the depth map to a texture for debugging.
 bool debugDepthMap = false;
 
@@ -102,10 +105,10 @@ int main() {
     
     Camera* light = new Camera(1.f);
     light->setPosition(Vector3f(0.f, 30.f, 0.f));
-    light->addAngle(0.f, MathUtil::PI / -2.f);
-//    light->setProjectionMatrix(Matrix4x4f::constructPerspectiveMat(MathUtil::degToRad(70.f), 1.f, 0.01f, 50.f));
-    light->setProjectionMatrix(Matrix4x4f::constructOrthographicMat(100.f, 100.f, 0.01f, 50.f));
-
+    light->addAngle(0.f, MathUtil::PI / 2.f);
+    light->setProjectionMatrix(Matrix4x4f::constructPerspectiveMat(MathUtil::degToRad(115.f), 1.f, 20.f, 40.f));
+//    light->setProjectionMatrix(Matrix4x4f::constructOrthographicMat(100.f, 100.f, 0.01f, 50.f));
+    
     // Shaders.
     Shader* defaultShader = new Shader("Shaders/default/");
     defaultShader->addVec3VertexInput("position");
@@ -119,10 +122,12 @@ int main() {
     Shader* depthPassShader = new Shader("Shaders/DepthPass/");
     depthPassShader->addVec3VertexInput("position");
     depthPassShader->addVec3VertexInput("normal");
+    depthPassShader->addVec2VertexInput("uv");
     
     Shader* shadowPassShader = new Shader("Shaders/ShadowPass/");
     shadowPassShader->addVec3VertexInput("position");
     shadowPassShader->addVec3VertexInput("normal");
+    shadowPassShader->addVec2VertexInput("uv");
     cam->addShader(shadowPassShader);
     
     GLuint err = glGetError();
@@ -138,7 +143,7 @@ int main() {
     grid->scale = Vector3f(50.f, 1.f, 50.f);
     
     Quad* quad = new Quad(imageShader);
-    Texture* testTex = new Texture("Textures/test.png");
+    Texture* testTex = new Texture("Textures/grass.png");
     
     Axis* xAxis = new Axis(defaultShader);
     xAxis->color = Vector4f(1.f, 0.f, 0.f, 1.f);
@@ -149,6 +154,9 @@ int main() {
     Axis* zAxis = new Axis(defaultShader);
     zAxis->color = Vector4f(0.f, 0.75f, 0.f, 1.f);
     
+    // Textures.
+    Texture* grass = new Texture("Textures/test.jpg");
+    
     // Shadows.
     GLuint depthMapFrameBuffer;
     glGenFramebuffers(1, &depthMapFrameBuffer);
@@ -158,11 +166,11 @@ int main() {
     GLuint depthMapTextureID;
     glGenTextures(1, &depthMapTextureID);
     glBindTexture(GL_TEXTURE_2D, depthMapTextureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_DIMENSIONS, SHADOW_DIMENSIONS, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, SHADOW_DIMENSIONS, SHADOW_DIMENSIONS, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     
     glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuffer);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMapTextureID, 0);
@@ -176,6 +184,7 @@ int main() {
     
     imageShader->getIntUniform("tex0")->setValue(0);
     shadowPassShader->getIntUniform("shadowMap")->setValue(0);
+    shadowPassShader->getIntUniform("diffuse")->setValue(1);
 
     while (!glfwWindowShouldClose(window)) {
         while (timing->tickReady()) {
@@ -218,12 +227,14 @@ int main() {
         if (!debugDepthMap) {
             // Render the scene from the camera's position.
             shadowPassShader->getBoolUniform("enableShadows")->setValue(enableShadows);
+            shadowPassShader->getBoolUniform("enableTextures")->setValue(enableTextures);
             shadowPassShader->getVec3fUniform("cameraPosition")->setValue(cam->getPosition());
             shadowPassShader->getVec3fUniform("lightPosition")->setValue(light->getPosition());
             shadowPassShader->getMat4Uniform("lightViewMatrix")->setValue(light->getViewMatrix());
             shadowPassShader->getMat4Uniform("lightProjectionMatrix")->setValue(light->getProjectionMatrix());
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, depthMapTextureID);
+            grass->activate(1);
             grid->setShader(shadowPassShader);
             grid->render();
             car->setShader(shadowPassShader);

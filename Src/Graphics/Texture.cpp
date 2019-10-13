@@ -42,7 +42,7 @@ Texture::~Texture() {
     glDeleteTextures(1, &textureID);
 }
 
-void Texture::activate(int index, Shader* shd) const {
+void Texture::activate(int index) const {
     GLenum glTextureLayers[] = {
         GL_TEXTURE0,
         GL_TEXTURE1,
@@ -56,5 +56,4 @@ void Texture::activate(int index, Shader* shd) const {
 
     glActiveTexture(glTextureLayers[index]);
     glBindTexture(GL_TEXTURE_2D, textureID);
-    shd->getIntUniform(String("tex", index).cstr())->setValue(index);
 }

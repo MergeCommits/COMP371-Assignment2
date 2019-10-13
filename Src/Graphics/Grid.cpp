@@ -12,7 +12,7 @@ Grid::Grid(Shader* shd) {
     mesh = new Mesh(shd);
     setShader(shd);
     std::vector<float> verts;
-    for (int i = 0; i < 24; i++) {
+    for (int i = 0; i < 32; i++) {
         verts.push_back(vertices[i]);
     }
     std::vector<int> prims = {

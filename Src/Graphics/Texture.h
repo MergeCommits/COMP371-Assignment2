@@ -16,7 +16,7 @@ public:
     Texture(const String& path);
     ~Texture();
     
-    void activate(int index, Shader* shd) const;
+    void activate(int index) const;
 };
 
 #endif // TEXTURE_H_INCLUDED

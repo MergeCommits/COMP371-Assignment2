@@ -27,11 +27,13 @@ Wheel::Wheel(Shader* shd) {
             std::vector<float> verts;
             for (int i = 0; i < (int)currMesh.Vertices.size(); i++) {
                 verts.push_back(currMesh.Vertices[i].Position.X);
-                verts.push_back(currMesh.Vertices[i].Position.Y + 39.5f);
+                verts.push_back(currMesh.Vertices[i].Position.Y + 40.7f);
                 verts.push_back(currMesh.Vertices[i].Position.Z);
                 verts.push_back(currMesh.Vertices[i].Normal.X);
                 verts.push_back(currMesh.Vertices[i].Normal.Y);
                 verts.push_back(currMesh.Vertices[i].Normal.Z);
+                verts.push_back(currMesh.Vertices[i].TextureCoordinate.X);
+                verts.push_back(currMesh.Vertices[i].TextureCoordinate.Y);
             }
 
             mesh->setGeometry(verts, prims);

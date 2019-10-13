@@ -12,7 +12,7 @@ Cube::Cube(Shader* shd) {
     mesh = new Mesh(shd);
     setShader(shd);
     std::vector<float> verts;
-    for (int i = 0; i < 216; i++) {
+    for (int i = 0; i < 288; i++) {
         verts.push_back(vertices[i]);
     }
     std::vector<int> prims = {

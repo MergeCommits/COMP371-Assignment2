@@ -9,12 +9,12 @@ class Mesh;
 
 class Grid {
 private:
-    const float vertices[12 * 2] = {
-        // Positions     // Normals
-        -1.f, 0.f, -1.f, 0.f, 1.f, 0.f,
-        -1.f, 0.f, 1.f,  0.f, 1.f, 0.f,
-        1.f, 0.f, -1.f,  0.f, 1.f, 0.f,
-        1.f, 0.f, 1.f,   0.f, 1.f, 0.f
+    const float vertices[32] = {
+        // Positions     // Normals     // UV Coords
+        -1.f, 0.f, -1.f, 0.f, 1.f, 0.f, 0.f, 0.f,
+        -1.f, 0.f, 1.f,  0.f, 1.f, 0.f, 0.f, 1.f,
+        1.f, 0.f, -1.f,  0.f, 1.f, 0.f, 1.f, 0.f,
+        1.f, 0.f, 1.f,   0.f, 1.f, 0.f, 1.f, 1.f
     };
     
     Mesh* mesh;

@@ -7,50 +7,50 @@ class Mesh;
 
 class Cube : public CarPart {
 private:
-    const float vertices[216] = {
-        // Positions         // Normals
+    const float vertices[288] = {
+        // Positions         // Normals          // UV Coords
         // back face
-        -0.5f, 0.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 0.0f, 0.0f, // bottom-left
-         0.5f, 1.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 1.0f, 1.0f, // top-right
-         0.5f, 0.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 1.0f, 0.0f, // bottom-right
-         0.5f, 1.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 1.0f, 1.0f, // top-right
-        -0.5f, 0.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 0.0f, 0.0f, // bottom-left
-        -0.5f, 1.0f, -0.5f,  0.0f,  0.0f, -1.0f, // 0.0f, 1.0f, // top-left
+        -0.5f, 0.0f, -0.5f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+         0.5f, 1.0f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+         0.5f, 0.0f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right
+         0.5f, 1.0f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+        -0.5f, 0.0f, -0.5f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+        -0.5f, 1.0f, -0.5f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
         // front face
-        -0.5f, 0.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 0.0f, 0.0f, // bottom-left
-         0.5f, 0.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 1.0f, 0.0f, // bottom-right
-         0.5f, 1.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 1.0f, 1.0f, // top-right
-         0.5f, 1.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 1.0f, 1.0f, // top-right
-        -0.5f, 1.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 0.0f, 1.0f, // top-left
-        -0.5f, 0.0f,  0.5f,  0.0f,  0.0f,  1.0f, // 0.0f, 0.0f, // bottom-left
+        -0.5f, 0.0f,  0.5f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+         0.5f, 0.0f,  0.5f,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
+         0.5f, 1.0f,  0.5f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+         0.5f, 1.0f,  0.5f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+        -0.5f, 1.0f,  0.5f,  0.0f,  0.0f,  1.0f, 0.0f, 1.0f, // top-left
+        -0.5f, 0.0f,  0.5f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
         // left face
-        -0.5f, 1.0f,  0.5f, -1.0f,  0.0f,  0.0f, // 1.0f, 0.0f, // top-right
-        -0.5f, 1.0f, -0.5f, -1.0f,  0.0f,  0.0f, // 1.0f, 1.0f, // top-left
-        -0.5f, 0.0f, -0.5f, -1.0f,  0.0f,  0.0f, // 0.0f, 1.0f, // bottom-left
-        -0.5f, 0.0f, -0.5f, -1.0f,  0.0f,  0.0f, // 0.0f, 1.0f, // bottom-left
-        -0.5f, 0.0f,  0.5f, -1.0f,  0.0f,  0.0f, // 0.0f, 0.0f, // bottom-right
-        -0.5f, 1.0f,  0.5f, -1.0f,  0.0f,  0.0f, // 1.0f, 0.0f, // top-right
+        -0.5f, 1.0f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+        -0.5f, 1.0f, -0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-left
+        -0.5f, 0.0f, -0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+        -0.5f, 0.0f, -0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+        -0.5f, 0.0f,  0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+        -0.5f, 1.0f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
         // right face
-         0.5f, 1.0f,  0.5f,  1.0f,  0.0f,  0.0f, // 1.0f, 0.0f, // top-left
-         0.5f, 0.0f, -0.5f,  1.0f,  0.0f,  0.0f, // 0.0f, 1.0f, // bottom-right
-         0.5f, 1.0f, -0.5f,  1.0f,  0.0f,  0.0f, // 1.0f, 1.0f, // top-right
-         0.5f, 0.0f, -0.5f,  1.0f,  0.0f,  0.0f, // 0.0f, 1.0f, // bottom-right
-         0.5f, 1.0f,  0.5f,  1.0f,  0.0f,  0.0f, // 1.0f, 0.0f, // top-left
-         0.5f, 0.0f,  0.5f,  1.0f,  0.0f,  0.0f, // 0.0f, 0.0f, // bottom-left
+         0.5f, 1.0f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+         0.5f, 0.0f, -0.5f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+         0.5f, 1.0f, -0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right
+         0.5f, 0.0f, -0.5f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+         0.5f, 1.0f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+         0.5f, 0.0f,  0.5f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left
         // bottom face
-        -0.5f, 0.0f, -0.5f,  0.0f, -1.0f,  0.0f, // 0.0f, 1.0f, // top-right
-         0.5f, 0.0f, -0.5f,  0.0f, -1.0f,  0.0f, // 1.0f, 1.0f, // top-left
-         0.5f, 0.0f,  0.5f,  0.0f, -1.0f,  0.0f, // 1.0f, 0.0f, // bottom-left
-         0.5f, 0.0f,  0.5f,  0.0f, -1.0f,  0.0f, // 1.0f, 0.0f, // bottom-left
-        -0.5f, 0.0f,  0.5f,  0.0f, -1.0f,  0.0f, // 0.0f, 0.0f, // bottom-right
-        -0.5f, 0.0f, -0.5f,  0.0f, -1.0f,  0.0f, // 0.0f, 1.0f, // top-right
+        -0.5f, 0.0f, -0.5f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
+         0.5f, 0.0f, -0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-left
+         0.5f, 0.0f,  0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+         0.5f, 0.0f,  0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+        -0.5f, 0.0f,  0.5f,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+        -0.5f, 0.0f, -0.5f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
         // top face
-        -0.5f, 1.0f, -0.5f,  0.0f,  1.0f,  0.0f, // 0.0f, 1.0f, // top-left
-         0.5f, 1.0f , 0.5f,  0.0f,  1.0f,  0.0f, // 1.0f, 0.0f, // bottom-right
-         0.5f, 1.0f, -0.5f,  0.0f,  1.0f,  0.0f, // 1.0f, 1.0f, // top-right
-         0.5f, 1.0f,  0.5f,  0.0f,  1.0f,  0.0f, // 1.0f, 0.0f, // bottom-right
-        -0.5f, 1.0f, -0.5f,  0.0f,  1.0f,  0.0f, // 0.0f, 1.0f, // top-left
-        -0.5f, 1.0f,  0.5f,  0.0f,  1.0f,  0.0f, // 0.0f, 0.0f  // bottom-left
+        -0.5f, 1.0f, -0.5f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+         0.5f, 1.0f , 0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+         0.5f, 1.0f, -0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right
+         0.5f, 1.0f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+        -0.5f, 1.0f, -0.5f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+        -0.5f, 1.0f,  0.5f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left
     };
 
     Vector3f position;
