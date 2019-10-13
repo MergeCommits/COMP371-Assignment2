@@ -21,6 +21,7 @@
 #include "Graphics/Grid.h"
 #include "Graphics/Quad.h"
 #include "Graphics/Axis.h"
+#include "Graphics/Wheel.h"
 #include "Graphics/Shader.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Texture.h"
@@ -90,6 +91,7 @@ int main() {
     
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glEnable(GL_DEPTH_TEST);
+    glCullFace(GL_BACK);
     
     // Fixed time steps.
     Timing* timing = new Timing(60);
@@ -167,6 +169,10 @@ int main() {
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    err = glGetError();
+    if (err != GL_NO_ERROR) {
+        throw std::runtime_error("Failed to create depth map.");
+    }
     
     imageShader->getIntUniform("tex0")->setValue(0);
     shadowPassShader->getIntUniform("shadowMap")->setValue(0);
@@ -195,7 +201,9 @@ int main() {
 
             glViewport(0, 0, SHADOW_DIMENSIONS, SHADOW_DIMENSIONS);
             glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuffer);
+            
             glClear(GL_DEPTH_BUFFER_BIT);
+            
             grid->setShader(depthPassShader);
             grid->render();
             car->setShader(depthPassShader);

@@ -30,6 +30,7 @@
 		197123C82347F9F3006A7739 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 197123C72347F9F3006A7739 /* Texture.cpp */; };
 		198CE12A232AFD6E009C2FBF /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 198CE128232AFD6E009C2FBF /* Camera.cpp */; };
 		19BF9A60232DE8FA00FF13A1 /* Axis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19BF9A5E232DE8FA00FF13A1 /* Axis.cpp */; };
+		19D8A23A2352E0F6005F224D /* Wheel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19D8A2392352E0F6005F224D /* Wheel.cpp */; };
 		19F67BB223498A9100A02E77 /* Quad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19F67BB123498A9100A02E77 /* Quad.cpp */; };
 		19F67BCD2349A1DF00A02E77 /* Textures in CopyFiles */ = {isa = PBXBuildFile; fileRef = 19F67BCC2349A1D700A02E77 /* Textures */; };
 /* End PBXBuildFile section */
@@ -88,6 +89,10 @@
 		198CE129232AFD6E009C2FBF /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		19BF9A5E232DE8FA00FF13A1 /* Axis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Axis.cpp; sourceTree = "<group>"; };
 		19BF9A5F232DE8FA00FF13A1 /* Axis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Axis.h; sourceTree = "<group>"; };
+		19D8A2382352E0F6005F224D /* Wheel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wheel.h; sourceTree = "<group>"; };
+		19D8A2392352E0F6005F224D /* Wheel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wheel.cpp; sourceTree = "<group>"; };
+		19D8A23B2352E288005F224D /* OBJ_Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBJ_Loader.h; sourceTree = "<group>"; };
+		19D8A23C2352E4BE005F224D /* CarPart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarPart.h; sourceTree = "<group>"; };
 		19F67BB023498A9100A02E77 /* Quad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad.h; sourceTree = "<group>"; };
 		19F67BB123498A9100A02E77 /* Quad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad.cpp; sourceTree = "<group>"; };
 		19F67BCC2349A1D700A02E77 /* Textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Textures; sourceTree = "<group>"; };
@@ -163,6 +168,7 @@
 			children = (
 				193AD0D9232A8276007879F4 /* String.cpp */,
 				193AD0DC232A8276007879F4 /* String.h */,
+				19D8A23B2352E288005F224D /* OBJ_Loader.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -199,6 +205,7 @@
 				198CE129232AFD6E009C2FBF /* Camera.h */,
 				19240966232B30540062AC03 /* Car.cpp */,
 				19240965232B30540062AC03 /* Car.h */,
+				19D8A23C2352E4BE005F224D /* CarPart.h */,
 				19240963232B292B0062AC03 /* Cube.cpp */,
 				19240962232B292B0062AC03 /* Cube.h */,
 				190B8FBD232C086D00F96298 /* Grid.cpp */,
@@ -213,6 +220,8 @@
 				193AD10C232A94BC007879F4 /* Triangle.h */,
 				19F67BB123498A9100A02E77 /* Quad.cpp */,
 				19F67BB023498A9100A02E77 /* Quad.h */,
+				19D8A2392352E0F6005F224D /* Wheel.cpp */,
+				19D8A2382352E0F6005F224D /* Wheel.h */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -285,6 +294,7 @@
 				19240967232B30540062AC03 /* Car.cpp in Sources */,
 				193AD0F6232A83DF007879F4 /* Shader.cpp in Sources */,
 				190B8FBE232C086D00F96298 /* Grid.cpp in Sources */,
+				19D8A23A2352E0F6005F224D /* Wheel.cpp in Sources */,
 				193AD0EA232A8276007879F4 /* Matrix.cpp in Sources */,
 				19BF9A60232DE8FA00FF13A1 /* Axis.cpp in Sources */,
 				193AD10B232A9227007879F4 /* Mesh.cpp in Sources */,

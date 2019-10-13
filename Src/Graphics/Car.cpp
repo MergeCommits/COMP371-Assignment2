@@ -2,6 +2,7 @@
 
 #include "Car.h"
 #include "Cube.h"
+#include "Wheel.h"
 #include "Shader.h"
 
 Car::Car(Shader* shd) {
@@ -51,76 +52,76 @@ Car::Car(Shader* shd) {
     botRightPillar->setScale(0.5f, 2.f, 0.5f);
     botRightPillar->setPosition(1.75f, 2.25f, -2.75f);
     
-    wheels[0] = new Cube(shd);
+    wheels[0] = new Wheel(shd);
     wheels[0]->setPosition(2.5f, 0.f, 2.25f);
-    wheels[1] = new Cube(shd);
+    wheels[1] = new Wheel(shd);
     wheels[1]->setPosition(2.5f, 0.f, -2.25f);
-    wheels[2] = new Cube(shd);
-    wheels[2]->setPosition(-2.5f, 0.f, 2.25f);
-    wheels[3] = new Cube(shd);
-    wheels[3]->setPosition(-2.5f, 0.f, -2.25f);
+    wheels[2] = new Wheel(shd);
+    wheels[2]->setPosition(-2.f, 0.f, 2.25f);
+    wheels[3] = new Wheel(shd);
+    wheels[3]->setPosition(-2.f, 0.f, -2.25f);
     
     for (int i = 0; i < 4; i++) {
         wheels[i]->color = Vector4f(0.2f, 0.2f, 0.2f, 1.f);
     }
 
-    cubes.push_back(bottom);
-    cubes.push_back(roof);
-    cubes.push_back(front);
-    cubes.push_back(back);
-    cubes.push_back(leftWall);
-    cubes.push_back(rightWall);
-    cubes.push_back(frontWall);
-    cubes.push_back(backWall);
-    cubes.push_back(topLeftPillar);
-    cubes.push_back(topRightPillar);
-    cubes.push_back(botLeftPillar);
-    cubes.push_back(botRightPillar);
+    parts.push_back(bottom);
+    parts.push_back(roof);
+    parts.push_back(front);
+    parts.push_back(back);
+    parts.push_back(leftWall);
+    parts.push_back(rightWall);
+    parts.push_back(frontWall);
+    parts.push_back(backWall);
+    parts.push_back(topLeftPillar);
+    parts.push_back(topRightPillar);
+    parts.push_back(botLeftPillar);
+    parts.push_back(botRightPillar);
     for (int i = 0; i < 4; i++) {
-        cubes.push_back(wheels[i]);
+        parts.push_back(wheels[i]);
     }
 }
 
 void Car::addPositionXZ(const Vector2f& vect) {
     position.x += vect.x;
     position.z += vect.y;
-    for (int i = 0; i < (int)cubes.size(); i++) {
-        cubes[i]->addPositionXZ(vect);
+    for (int i = 0; i < (int)parts.size(); i++) {
+        parts[i]->addPositionXZ(vect);
     }
 }
 
 void Car::setScale(float x, float y, float z) {
     scale = Vector3f(x, y, z);
-    for (int i = 0; i < (int)cubes.size(); i++) {
-        cubes[i]->setScale(x, y, z);
+    for (int i = 0; i < (int)parts.size(); i++) {
+        parts[i]->setScale(x, y, z);
     }
 }
 
 void Car::addScale(float sca) {
     scale = scale.add(Vector3f(sca, sca, sca));
-    for (int i = 0; i < (int)cubes.size(); i++) {
-        cubes[i]->addScaleOrigin(sca);
+    for (int i = 0; i < (int)parts.size(); i++) {
+        parts[i]->addScaleOrigin(sca);
     }
 }
 
 void Car::addRotationX(float bruh) {
     rotation.x += bruh;
-    for (int i = 0; i < (int)cubes.size(); i++) {
-        cubes[i]->addRotationX(bruh);
+    for (int i = 0; i < (int)parts.size(); i++) {
+        parts[i]->addRotationX(bruh);
     }
 }
 
 void Car::addRotationY(float bruh) {
     rotation.y += bruh;
-    for (int i = 0; i < (int)cubes.size(); i++) {
-        cubes[i]->addRotationOriginY(bruh);
+    for (int i = 0; i < (int)parts.size(); i++) {
+        parts[i]->addRotationOriginY(bruh);
     }
 }
 
 void Car::addRotationZ(float bruh) {
     rotation.z += bruh;
-    for (int i = 0; i < (int)cubes.size(); i++) {
-        cubes[i]->addRotationZ(bruh);
+    for (int i = 0; i < (int)parts.size(); i++) {
+        parts[i]->addRotationZ(bruh);
     }
 }
 
@@ -161,15 +162,15 @@ void Car::walk(Car::WalkInput input, float speed) {
 }
 
 void Car::setShader(Shader* shd) {
-    for (int i = 0; i < (int)cubes.size(); i++) {
-        cubes[i]->setShader(shd);
+    for (int i = 0; i < (int)parts.size(); i++) {
+        parts[i]->setShader(shd);
     }
 }
 
 void Car::render() {
     glPolygonMode(GL_FRONT_AND_BACK, renderingMode);
-    for (int i = 0; i < (int)cubes.size(); i++) {
-        cubes[i]->render(position);
+    for (int i = 0; i < (int)parts.size(); i++) {
+        parts[i]->render(position);
     }
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

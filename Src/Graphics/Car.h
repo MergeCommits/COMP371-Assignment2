@@ -5,8 +5,10 @@
 #include <GL/glew.h>
 
 #include "../Math/Vector.h"
+#include "CarPart.h"
 
 class Cube;
+class Wheel;
 class Shader;
 
 class Car {
@@ -16,8 +18,8 @@ private:
     Vector3f rotation;
     GLenum renderingMode;
     
-    std::vector<Cube*> cubes;
-    Cube* wheels[4];
+    std::vector<CarPart*> parts;
+    Wheel* wheels[4];
     
 public:
     Car(Shader* shd);

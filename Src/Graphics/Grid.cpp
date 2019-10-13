@@ -33,6 +33,11 @@ void Grid::setShader(Shader* shd) {
 }
 
 void Grid::render() {
+    GLuint err = GL_NO_ERROR;
+    err = glGetError();
+    if (err != GL_NO_ERROR) {
+        throw std::runtime_error("Uncaught exception - Grid::render().");
+    }
     Matrix4x4f mat = Matrix4x4f::constructWorldMat(Vector3f::zero, scale, Vector3f::zero);
     worldMat->setValue(mat);
     colorUniform->setValue(color);
