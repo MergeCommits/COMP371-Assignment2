@@ -35,6 +35,8 @@ public:
     void addRotationZ(float bruh) override;
 
     void setShader(Shader* shd) override;
+    
+    bool isWheel() override { return true; }
 
     void render() override;
     void render(const Vector3f& origin) override;

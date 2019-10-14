@@ -17,6 +17,8 @@ public:
     virtual void addRotationZ(float bruh)=0;
 
     virtual void setShader(Shader* shd)=0;
+    
+    virtual bool isWheel() { return false; }
 
     virtual void render()=0;
     virtual void render(const Vector3f& origin)=0;

@@ -10,6 +10,7 @@
 class Cube;
 class Wheel;
 class Shader;
+class Texture;
 
 class Car {
 private:
@@ -18,11 +19,16 @@ private:
     Vector3f rotation;
     GLenum renderingMode;
     
+    
+    Texture* metal;
+    Texture* tire;
+    
     std::vector<CarPart*> parts;
     Wheel* wheels[4];
     
 public:
     Car(Shader* shd);
+    ~Car();
     
     enum class WalkInput {
         None = 0x0,

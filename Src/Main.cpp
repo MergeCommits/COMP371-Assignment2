@@ -155,7 +155,7 @@ int main() {
     zAxis->color = Vector4f(0.f, 0.75f, 0.f, 1.f);
     
     // Textures.
-    Texture* grass = new Texture("Textures/test.jpg");
+    Texture* grass = new Texture("Textures/grass.jpg");
     
     // Shadows.
     GLuint depthMapFrameBuffer;
@@ -269,6 +269,7 @@ int main() {
     delete xAxis;
     delete yAxis;
     delete zAxis;
+    delete grass;
     delete defaultShader;
     delete imageShader;
     delete depthPassShader;

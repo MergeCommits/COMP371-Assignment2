@@ -4,6 +4,7 @@
 #include "Cube.h"
 #include "Wheel.h"
 #include "Shader.h"
+#include "Texture.h"
 
 Car::Car(Shader* shd) {
     renderingMode = GL_FILL;
@@ -80,6 +81,17 @@ Car::Car(Shader* shd) {
     for (int i = 0; i < 4; i++) {
         parts.push_back(wheels[i]);
     }
+    
+    metal = new Texture("Textures/metal.jpg");
+    tire = new Texture("Textures/tire.jpg");
+}
+
+Car::~Car() {
+    for (int i = 0; i < (int)parts.size(); i++) {
+        delete parts[i];
+    }
+    delete metal;
+    delete tire;
 }
 
 void Car::addPositionXZ(const Vector2f& vect) {
@@ -169,8 +181,14 @@ void Car::setShader(Shader* shd) {
 
 void Car::render() {
     glPolygonMode(GL_FRONT_AND_BACK, renderingMode);
+//    metal->activate(1);
     for (int i = 0; i < (int)parts.size(); i++) {
+        if (parts[i]->isWheel()) { continue; }
         parts[i]->render(position);
+    }
+//    tire->activate(1);
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->render();
     }
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
