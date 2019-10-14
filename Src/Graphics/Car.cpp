@@ -83,7 +83,7 @@ Car::Car(Shader* shd) {
     }
     
     metal = new Texture("Textures/metal.jpg");
-    tire = new Texture("Textures/tire.jpg");
+    tire = new Texture("Textures/tire.jpeg");
 }
 
 Car::~Car() {

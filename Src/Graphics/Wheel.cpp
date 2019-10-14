@@ -32,8 +32,10 @@ Wheel::Wheel(Shader* shd) {
                 verts.push_back(currMesh.Vertices[i].Normal.X);
                 verts.push_back(currMesh.Vertices[i].Normal.Y);
                 verts.push_back(currMesh.Vertices[i].Normal.Z);
-                verts.push_back(currMesh.Vertices[i].TextureCoordinate.X);
-                verts.push_back(currMesh.Vertices[i].TextureCoordinate.Y);
+                verts.push_back(0.5f);
+                verts.push_back(0.5f);
+//                verts.push_back(currMesh.Vertices[i].TextureCoordinate.X);
+//                verts.push_back(currMesh.Vertices[i].TextureCoordinate.Y);
             }
 
             mesh->setGeometry(verts, prims);
