@@ -302,6 +302,7 @@ void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
 // Used to determine whether a key was HIT, as opposed to just pressed.
 int lastKeySpaceState = GLFW_RELEASE;
 int lastKeyXState = GLFW_RELEASE;
+int lastKeyBState = GLFW_RELEASE;
 int lastKeyKState = GLFW_RELEASE;
 
 static bool inputHit(GLFWwindow* window, int key, int& lastKeyState) {
@@ -379,8 +380,13 @@ void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam) {
         car->setRenderingMode(GL_FILL);
     }
     
-    // Toggle shadow map.
+    // Toggle textures.
     if (inputHit(window, GLFW_KEY_X, lastKeyXState)) {
+        enableTextures = !enableTextures;
+    }
+    
+    // Toggle shadow map.
+    if (inputHit(window, GLFW_KEY_B, lastKeyBState)) {
         enableShadows = !enableShadows;
     }
     

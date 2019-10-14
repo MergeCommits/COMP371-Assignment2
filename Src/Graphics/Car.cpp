@@ -181,14 +181,14 @@ void Car::setShader(Shader* shd) {
 
 void Car::render() {
     glPolygonMode(GL_FRONT_AND_BACK, renderingMode);
-//    metal->activate(1);
+    metal->activate(1);
     for (int i = 0; i < (int)parts.size(); i++) {
         if (parts[i]->isWheel()) { continue; }
         parts[i]->render(position);
     }
-//    tire->activate(1);
+    tire->activate(1);
     for (int i = 0; i < 4; i++) {
-        wheels[i]->render();
+        wheels[i]->render(position);
     }
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
