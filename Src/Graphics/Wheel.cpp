@@ -32,8 +32,8 @@ Wheel::Wheel(Shader* shd) {
                 verts.push_back(currMesh.Vertices[i].Normal.X);
                 verts.push_back(currMesh.Vertices[i].Normal.Y);
                 verts.push_back(currMesh.Vertices[i].Normal.Z);
-                verts.push_back(0.5f);
-                verts.push_back(0.5f);
+                verts.push_back((std::rand() % 10) / 10.f);
+                verts.push_back((std::rand() % 10) / 10.f);
 //                verts.push_back(currMesh.Vertices[i].TextureCoordinate.X);
 //                verts.push_back(currMesh.Vertices[i].TextureCoordinate.Y);
             }
@@ -47,7 +47,7 @@ Wheel::Wheel(Shader* shd) {
     color = Vector4f(1.f, 0.f, 0.f, 1.f);
     scale = Vector3f(0.025f, 0.025f, 0.025f);
     scaleOrigin = Vector3f::one;
-    addRotationY(MathUtil::PI / 2.f);
+    rotation.y = MathUtil::PI / 2.f;
 }
 
 void Wheel::setPosition(float x, float y, float z) {
@@ -71,9 +71,9 @@ void Wheel::addRotationX(float bruh) {
     rotation.x += bruh;
 }
 
-void Wheel::addRotationY(float bruh) {
-    rotation.y += bruh;
-}
+//void Wheel::addRotationY(float bruh) {
+//    rotation.y += bruh;
+//}
 
 void Wheel::addRotationOriginY(float bruh) {
     rotationOrigin.y += bruh;
@@ -90,9 +90,13 @@ void Wheel::setShader(Shader* shd) {
 }
 
 void Wheel::render() {
-//    Matrix4x4f mat = Matrix4x4f::constructWorldMat(position, scale, rotation);
+    Matrix4x4f mat = Matrix4x4f::constructWorldMat(position, scale, rotation);
+    
+    worldMat->setValue(mat);
     colorUniform->setValue(color);
+    glCullFace(GL_FRONT);
     mesh->render();
+    glCullFace(GL_BACK);
 }
 
 void Wheel::render(const Vector3f& origin) {
@@ -102,7 +106,10 @@ void Wheel::render(const Vector3f& origin) {
     Matrix4x4f rotateRelativeToCube = Matrix4x4f::rotate(rotation, Vector3f(0.f, 0.5f, 0.f));
     
     Matrix4x4f mat = scaleRelativeToCube.product(rotateRelativeToCube.product(Matrix4x4f::translate(position).product(scaleRelativeToOrigin.product(rotateRelativeToOrigin))));
+    
     worldMat->setValue(mat);
-
-    render();
+    colorUniform->setValue(color);
+    glCullFace(GL_FRONT);
+    mesh->render();
+    glCullFace(GL_BACK);
 }

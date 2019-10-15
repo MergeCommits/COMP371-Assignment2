@@ -94,6 +94,7 @@ int main() {
     
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     
     // Fixed time steps.

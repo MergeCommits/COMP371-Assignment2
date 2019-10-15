@@ -1,11 +1,11 @@
 #ifndef CUBE_H_INCLUDED
 #define CUBE_H_INCLUDED
 
-#include "CarPart.h"
+#include "Shader.h"
 
 class Mesh;
 
-class Cube : public CarPart {
+class Cube {
 private:
     const float vertices[288] = {
         // Positions         // Normals          // UV Coords
@@ -70,19 +70,19 @@ public:
 
     Cube(Shader* shd);
 
-    void setPosition(float x, float y, float z) override;
-    void addPositionXZ(const Vector2f& vect) override;
-    void setScale(float x, float y, float z) override;
-    void addScaleOrigin(float sca) override;
-    void addRotationX(float bruh) override;
-    void addRotationY(float bruh) override;
-    void addRotationOriginY(float bruh) override;
-    void addRotationZ(float bruh) override;
+    void setPosition(float x, float y, float z);
+    void addPositionXZ(const Vector2f& vect);
+    void setScale(float x, float y, float z);
+    void addScaleOrigin(float sca);
+    void addRotationX(float bruh);
+    void addRotationY(float bruh);
+    void addRotationOriginY(float bruh);
+    void addRotationZ(float bruh);
 
-    void setShader(Shader* shd) override;
+    void setShader(Shader* shd);
 
-    void render() override;
-    void render(const Vector3f& origin) override;
+    void render();
+    void render(const Vector3f& origin);
 };
 
 #endif // CUBE_H_INCLUDED

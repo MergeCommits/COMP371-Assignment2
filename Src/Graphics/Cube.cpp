@@ -77,9 +77,13 @@ void Cube::setShader(Shader* shd) {
 }
 
 void Cube::render() {
-//    Matrix4x4f mat = Matrix4x4f::constructWorldMat(position, scale, rotation);
+    Matrix4x4f mat = Matrix4x4f::constructWorldMat(position, scale, rotation);
+    worldMat->setValue(mat);
     colorUniform->setValue(color);
+    glCullFace(GL_FRONT);
     mesh->render();
+    glCullFace(GL_BACK);
+    
 }
 
 void Cube::render(const Vector3f& origin) {
@@ -90,6 +94,11 @@ void Cube::render(const Vector3f& origin) {
     
     Matrix4x4f mat = scaleRelativeToCube.product(rotateRelativeToCube.product(Matrix4x4f::translate(position).product(scaleRelativeToOrigin.product(rotateRelativeToOrigin))));
     worldMat->setValue(mat);
-
-    render();
+    
+    
+    worldMat->setValue(mat);
+    colorUniform->setValue(color);
+    glCullFace(GL_FRONT);
+    mesh->render();
+    glCullFace(GL_BACK);
 }

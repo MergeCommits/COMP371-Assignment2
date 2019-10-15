@@ -78,20 +78,21 @@ Car::Car(Shader* shd) {
     parts.push_back(topRightPillar);
     parts.push_back(botLeftPillar);
     parts.push_back(botRightPillar);
-    for (int i = 0; i < 4; i++) {
-        parts.push_back(wheels[i]);
-    }
     
-    metal = new Texture("Textures/metal.jpg");
-    tire = new Texture("Textures/tire.jpeg");
+    metalTexture = new Texture("Textures/metal.jpg");
+    tireTexture = new Texture("Textures/tire.jpeg");
 }
 
 Car::~Car() {
     for (int i = 0; i < (int)parts.size(); i++) {
         delete parts[i];
     }
-    delete metal;
-    delete tire;
+    
+    for (int i = 0; i < 4; i++) {
+        delete wheels[i];
+    }
+    delete metalTexture;
+    delete tireTexture;
 }
 
 void Car::addPositionXZ(const Vector2f& vect) {
@@ -100,12 +101,18 @@ void Car::addPositionXZ(const Vector2f& vect) {
     for (int i = 0; i < (int)parts.size(); i++) {
         parts[i]->addPositionXZ(vect);
     }
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->addPositionXZ(vect);
+    }
 }
 
 void Car::setScale(float x, float y, float z) {
     scale = Vector3f(x, y, z);
     for (int i = 0; i < (int)parts.size(); i++) {
         parts[i]->setScale(x, y, z);
+    }
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->setScale(x, y, z);
     }
 }
 
@@ -114,12 +121,18 @@ void Car::addScale(float sca) {
     for (int i = 0; i < (int)parts.size(); i++) {
         parts[i]->addScaleOrigin(sca);
     }
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->addScaleOrigin(sca);
+    }
 }
 
 void Car::addRotationX(float bruh) {
     rotation.x += bruh;
     for (int i = 0; i < (int)parts.size(); i++) {
         parts[i]->addRotationX(bruh);
+    }
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->addRotationX(bruh);
     }
 }
 
@@ -128,12 +141,18 @@ void Car::addRotationY(float bruh) {
     for (int i = 0; i < (int)parts.size(); i++) {
         parts[i]->addRotationOriginY(bruh);
     }
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->addRotationOriginY(bruh);
+    }
 }
 
 void Car::addRotationZ(float bruh) {
     rotation.z += bruh;
     for (int i = 0; i < (int)parts.size(); i++) {
         parts[i]->addRotationZ(bruh);
+    }
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->addRotationZ(bruh);
     }
 }
 
@@ -177,16 +196,18 @@ void Car::setShader(Shader* shd) {
     for (int i = 0; i < (int)parts.size(); i++) {
         parts[i]->setShader(shd);
     }
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->setShader(shd);
+    }
 }
 
 void Car::render() {
     glPolygonMode(GL_FRONT_AND_BACK, renderingMode);
-    metal->activate(1);
+    metalTexture->activate(1);
     for (int i = 0; i < (int)parts.size(); i++) {
-        if (parts[i]->isWheel()) { continue; }
         parts[i]->render(position);
     }
-    tire->activate(1);
+    tireTexture->activate(1);
     for (int i = 0; i < 4; i++) {
         wheels[i]->render(position);
     }

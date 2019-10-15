@@ -5,7 +5,6 @@
 #include <GL/glew.h>
 
 #include "../Math/Vector.h"
-#include "CarPart.h"
 
 class Cube;
 class Wheel;
@@ -20,10 +19,10 @@ private:
     GLenum renderingMode;
     
     
-    Texture* metal;
-    Texture* tire;
+    Texture* metalTexture;
+    Texture* tireTexture;
     
-    std::vector<CarPart*> parts;
+    std::vector<Cube*> parts;
     Wheel* wheels[4];
     
 public:

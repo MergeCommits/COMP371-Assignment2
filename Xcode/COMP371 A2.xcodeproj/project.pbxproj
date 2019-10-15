@@ -92,7 +92,6 @@
 		19D8A2382352E0F6005F224D /* Wheel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wheel.h; sourceTree = "<group>"; };
 		19D8A2392352E0F6005F224D /* Wheel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wheel.cpp; sourceTree = "<group>"; };
 		19D8A23B2352E288005F224D /* OBJ_Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBJ_Loader.h; sourceTree = "<group>"; };
-		19D8A23C2352E4BE005F224D /* CarPart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarPart.h; sourceTree = "<group>"; };
 		19F67BB023498A9100A02E77 /* Quad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad.h; sourceTree = "<group>"; };
 		19F67BB123498A9100A02E77 /* Quad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad.cpp; sourceTree = "<group>"; };
 		19F67BCC2349A1D700A02E77 /* Textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Textures; sourceTree = "<group>"; };
@@ -205,7 +204,6 @@
 				198CE129232AFD6E009C2FBF /* Camera.h */,
 				19240966232B30540062AC03 /* Car.cpp */,
 				19240965232B30540062AC03 /* Car.h */,
-				19D8A23C2352E4BE005F224D /* CarPart.h */,
 				19240963232B292B0062AC03 /* Cube.cpp */,
 				19240962232B292B0062AC03 /* Cube.h */,
 				190B8FBD232C086D00F96298 /* Grid.cpp */,
