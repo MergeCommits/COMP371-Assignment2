@@ -101,14 +101,14 @@ int main() {
     Timing* timing = new Timing(60);
     
     // Cameras.
-    Camera* cam = new Camera((float)width / height);
+    Camera* cam = new Camera(width, height);
     cam->setPosition(Vector3f(0.f, 5.f, -20.f));
     
-    Camera* light = new Camera(1.f);
+    bool directionalShadow = false;
+    float nearZ = directionalShadow ? 1.f : 20.f;
+    Camera* light = new Camera(100, 100, MathUtil::degToRad(115.f), nearZ, 40.f, directionalShadow);
     light->setPosition(Vector3f(0.f, 30.f, 0.f));
-    light->addAngle(0.f, MathUtil::PI / 2.f);
-    light->setProjectionMatrix(Matrix4x4f::constructPerspectiveMat(MathUtil::degToRad(115.f), 1.f, 20.f, 40.f));
-//    light->setProjectionMatrix(Matrix4x4f::constructOrthographicMat(100.f, 100.f, 0.01f, 50.f));
+    light->addAngle(0.f, MathUtil::PI / (directionalShadow ? -2.f : 2.f));
     
     // Shaders.
     Shader* defaultShader = new Shader("Shaders/default/");

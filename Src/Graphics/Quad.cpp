@@ -15,8 +15,8 @@ Quad::Quad(Shader* shd) {
         verts.push_back(quadVertices[i]);
     }
     std::vector<int> prims = {
-        2, 1, 0,
-        3, 1, 2
+        2, 0, 1,
+        2, 1, 3
     };
     
     mesh->setGeometry(verts, prims);

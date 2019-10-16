@@ -4,7 +4,7 @@
 #include "Camera.h"
 #include "../Math/MathUtil.h"
 
-Camera::Camera(float aspectRatio, float fov) {
+Camera::Camera(int w, int h, float fov, float nearZ, float farZ, bool orthographic) {
     position = Vector3f(0.f, 0.f, 0.f);
     lookAt = Vector3f(0.f, 0.f, 1.f);
     upDir = Vector3f(0.f, 1.f, 0.f);
@@ -16,11 +16,12 @@ Camera::Camera(float aspectRatio, float fov) {
     yAngleLimit = MathUtil::PI / 2.f;
     tilt = 0.f;
 
-    float nearZ = 0.01f;
-    float farZ = 25.f;
+    this->nearPlaneZ = nearZ;
+    this->farPlaneZ = farZ;
     this->fov = fov;
-    this->aspectRatio = aspectRatio;
-    projectionMatrix = Matrix4x4f::constructPerspectiveMat(fov, aspectRatio, nearZ, farZ);
+    this->width = w;
+    this->height = h;
+    this->orthographicProj = orthographic;
 
     rotation = Matrix4x4f::identity;
 
@@ -28,7 +29,7 @@ Camera::Camera(float aspectRatio, float fov) {
     needsProjUpdate = true;
 }
 
-Camera::Camera(float aspectRatio) : Camera(aspectRatio, MathUtil::degToRad(70.f)) { }
+Camera::Camera(int w, int h) : Camera(w, h, MathUtil::degToRad(70.f)) { }
 
 void Camera::addShader(Shader* shd) {
     shaders.push_back(shd);
@@ -43,11 +44,6 @@ Matrix4x4f Camera::getViewMatrix() const {
 
 Matrix4x4f Camera::getProjectionMatrix() const {
     return projectionMatrix;
-}
-
-void Camera::setProjectionMatrix(const Matrix4x4f& mat) {
-    projectionMatrix = mat;
-    needsProjUpdate = true;
 }
 
 void Camera::update() {
@@ -70,6 +66,12 @@ void Camera::update() {
     }
 
     if (needsProjUpdate) {
+        if (!orthographicProj) {
+            projectionMatrix = Matrix4x4f::constructPerspectiveMat(fov, getAspectRatio(), nearPlaneZ, farPlaneZ);
+        } else {
+            projectionMatrix = Matrix4x4f::constructOrthographicMat(width, height, nearPlaneZ, farPlaneZ);
+        }
+        
         for (int i = 0; i < (int)shaders.size(); i++) {
             shaders[i]->getMat4Uniform("projectionMatrix")->setValue(projectionMatrix);
         }
@@ -120,11 +122,44 @@ void Camera::addAngle(float x, float y) {
 void Camera::resetAngle() {
     xAngle = 0.f;
     yAngle = 0.f;
+    
     needsViewUpdate = true;
 }
 
 void Camera::addFov(float deg) {
     fov += MathUtil::degToRad(deg);
     fov = MathUtil::clampFloat(fov, 0.1f, 2.9f);
+    
     needsProjUpdate = true;
+}
+
+void Camera::setXYClippings(int w, int h) {
+    if (width == w && height == h) {
+        return;
+    }
+    
+    this->width = w;
+    this->height = h;
+    
+    needsProjUpdate = true;
+}
+
+void Camera::setZClippings(float nearZ, float farZ) {
+    if (MathUtil::eqFloats(nearPlaneZ, nearZ) && MathUtil::eqFloats(farPlaneZ, farZ)) {
+        return;
+    }
+    
+    nearPlaneZ = nearZ;
+    farPlaneZ = farZ;
+    
+    needsProjUpdate = true;
+}
+
+float Camera::getAspectRatio() const {
+    return (float)width / height;
+}
+
+void Camera::setOrthographicProj(bool bruh) {
+    needsProjUpdate = bruh != orthographicProj;
+    orthographicProj = bruh;
 }
