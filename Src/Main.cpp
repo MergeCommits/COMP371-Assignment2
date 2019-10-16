@@ -47,6 +47,7 @@ bool enableTextures = true;
 bool debugDepthMap = false;
 
 void mouseCallback(GLFWwindow* window, double xpos, double ypos);
+void windowSizeCallback(GLFWwindow* window, int w, int h);
 void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam);
 
 int main() {
@@ -79,6 +80,7 @@ int main() {
     glfwSetCursorPos(window, width / 2.f, height / 2.f);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetCursorPosCallback(window, mouseCallback);
+    glfwSetWindowSizeCallback(window, windowSizeCallback);
     double mouseX, mouseY;
     glfwGetCursorPos(window, &mouseX, &mouseY);
     prevMouseX = (float)mouseX;
@@ -201,6 +203,12 @@ int main() {
 
         // Draw code.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        // If the aspect ratio was changed then update the camera's size.
+        if (!MathUtil::eqFloats(cam->getAspectRatio(), (float)width / height)) {
+            cam->setXYClippings(width, height);
+        }
+        
         cam->update();
         light->update();
         
@@ -298,6 +306,11 @@ void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
         mouseXDiff *= sensitivity;
         mouseYDiff *= sensitivity;
     }
+}
+
+void windowSizeCallback(GLFWwindow* window, int w, int h) {
+    width = w;
+    height = h;
 }
 
 // Used to determine whether a key was HIT, as opposed to just pressed.

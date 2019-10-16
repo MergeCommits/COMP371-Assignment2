@@ -36,8 +36,6 @@ private:
     Matrix4x4f rotation;
 
     std::vector<Shader*> shaders;
-    
-    float getAspectRatio() const;
 
 public:
     Camera(int w, int h, float fov, float nearZ = 0.01f, float farZ = 30.f, bool orthographic = false);
@@ -60,6 +58,7 @@ public:
     void setXYClippings(int w, int h);
     void setZClippings(float nearZ, float farZ);
     void setAspectRatio(float ratio);
+    float getAspectRatio() const;
     void setOrthographicProj(bool bruh);
 };
 
