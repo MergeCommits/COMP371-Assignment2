@@ -14,6 +14,8 @@ private:
     // Rotations relative to an arbitrary origin.
     Vector3f rotationOrigin;
     Vector3f rotation;
+    // Lateral rotation of wheels.
+    float tireRotation;
 
     Mesh* mesh;
     Shader::Uniform* worldMat;
@@ -26,10 +28,8 @@ public:
 
     void setPosition(float x, float y, float z);
     void addPositionXZ(const Vector2f& vect);
-    void setScale(float x, float y, float z);
     void addScaleOrigin(float sca);
     void addRotationX(float bruh);
-//    void addRotationY(float bruh);
     void addRotationOriginY(float bruh);
     void addRotationZ(float bruh);
 

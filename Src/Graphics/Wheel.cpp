@@ -13,12 +13,12 @@ Wheel::Wheel(Shader* shd) {
     setShader(shd);
     
     // Initialize Loader
-    objl::Loader Loader;
-    bool loaded = Loader.LoadFile("Textures/wheel.obj");
+    objl::Loader loader;
+    bool loaded = loader.LoadFile("Textures/wheel.obj");
 
     if (loaded) {
-        for (int i = 0; i < (int)Loader.LoadedMeshes.size(); i++) {
-            objl::Mesh currMesh = Loader.LoadedMeshes[i];
+        for (int i = 0; i < (int)loader.LoadedMeshes.size(); i++) {
+            objl::Mesh currMesh = loader.LoadedMeshes[i];
 
             // Convert the array of indices from unsigned to signed integers.
             std::vector<int> prims(currMesh.Indices.begin(), currMesh.Indices.end());
@@ -59,10 +59,6 @@ void Wheel::addPositionXZ(const Vector2f& vect) {
     position.z += vect.y;
 }
 
-void Wheel::setScale(float x, float y, float z) {
-    scale = Vector3f(x, y, z);
-}
-
 void Wheel::addScaleOrigin(float sca) {
     scaleOrigin = scaleOrigin.add(Vector3f(sca, sca, sca));
 }
@@ -70,10 +66,6 @@ void Wheel::addScaleOrigin(float sca) {
 void Wheel::addRotationX(float bruh) {
     rotation.x += bruh;
 }
-
-//void Wheel::addRotationY(float bruh) {
-//    rotation.y += bruh;
-//}
 
 void Wheel::addRotationOriginY(float bruh) {
     rotationOrigin.y += bruh;
@@ -101,11 +93,11 @@ void Wheel::render() {
 
 void Wheel::render(const Vector3f& origin) {
     Matrix4x4f scaleRelativeToOrigin = Matrix4x4f::scale(scaleOrigin, origin);
-    Matrix4x4f scaleRelativeToCube = Matrix4x4f::scale(scale);
+    Matrix4x4f scaleRelativeToObject = Matrix4x4f::scale(scale);
     Matrix4x4f rotateRelativeToOrigin = Matrix4x4f::rotate(rotationOrigin, origin);
-    Matrix4x4f rotateRelativeToCube = Matrix4x4f::rotate(rotation, Vector3f(0.f, 0.5f, 0.f));
+    Matrix4x4f rotateRelativeToObject = Matrix4x4f::rotate(rotation, Vector3f(0.f, 0.5f, 0.f));
     
-    Matrix4x4f mat = scaleRelativeToCube.product(rotateRelativeToCube.product(Matrix4x4f::translate(position).product(scaleRelativeToOrigin.product(rotateRelativeToOrigin))));
+    Matrix4x4f mat = scaleRelativeToObject.product(rotateRelativeToObject.product(Matrix4x4f::translate(position).product(scaleRelativeToOrigin.product(rotateRelativeToOrigin))));
     
     worldMat->setValue(mat);
     colorUniform->setValue(color);

@@ -80,7 +80,7 @@ Car::Car(Shader* shd) {
     parts.push_back(botRightPillar);
     
     metalTexture = new Texture("Textures/metal.jpg");
-    tireTexture = new Texture("Textures/tire.jpeg");
+    tireTexture = new Texture("Textures/tire.png");
 }
 
 Car::~Car() {
@@ -103,16 +103,6 @@ void Car::addPositionXZ(const Vector2f& vect) {
     }
     for (int i = 0; i < 4; i++) {
         wheels[i]->addPositionXZ(vect);
-    }
-}
-
-void Car::setScale(float x, float y, float z) {
-    scale = Vector3f(x, y, z);
-    for (int i = 0; i < (int)parts.size(); i++) {
-        parts[i]->setScale(x, y, z);
-    }
-    for (int i = 0; i < 4; i++) {
-        wheels[i]->setScale(x, y, z);
     }
 }
 
