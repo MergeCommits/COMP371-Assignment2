@@ -189,7 +189,11 @@ void Car::walk(Car::WalkInput input, float speed) {
     
     if (targetDir.lengthSquared() < 0.01f) { return; }
     
-    addRotationY(tireRotation * 0.05f);
+    if ((input & WalkInput::Forward) != WalkInput::None) {
+        addRotationY(tireRotation * 0.05f);
+    } else if ((input & WalkInput::Backward) != WalkInput::None) {
+        addRotationY(tireRotation * -0.05f);
+    }
     addPositionXZ(targetDir.normalize().multiply(speed));
 }
 
