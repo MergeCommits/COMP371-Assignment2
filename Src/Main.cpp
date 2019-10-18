@@ -367,12 +367,12 @@ void updateInputs(float timestep, GLFWwindow* window, Car* car, Camera* cam) {
     
     
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-        car->addRotationY(timestep * speed);
-        input = input | Car::WalkInput::Right;
+        car->addTireRotation(timestep * speed);
+//        car->addRotationY(timestep * speed);
     }
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-        car->addRotationY(timestep * -speed);
-        input = input | Car::WalkInput::Right;
+        car->addTireRotation(timestep * -speed);
+//        car->addRotationY(timestep * -speed);
     }
     
     // Scale.

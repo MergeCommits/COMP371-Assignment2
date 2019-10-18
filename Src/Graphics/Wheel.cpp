@@ -48,6 +48,7 @@ Wheel::Wheel(Shader* shd) {
     scale = Vector3f(0.025f, 0.025f, 0.025f);
     scaleOrigin = Vector3f::one;
     rotation.y = MathUtil::PI / 2.f;
+    tireRotation = 0.f;
 }
 
 void Wheel::setPosition(float x, float y, float z) {
@@ -75,6 +76,10 @@ void Wheel::addRotationZ(float bruh) {
     rotation.z += bruh;
 }
 
+void Wheel::setTireRotation(float bruh) {
+    tireRotation = bruh;
+}
+
 void Wheel::setShader(Shader* shd) {
     mesh->setShader(shd);
     worldMat = shd->getMat4Uniform("modelMatrix");
@@ -95,7 +100,13 @@ void Wheel::render(const Vector3f& origin) {
     Matrix4x4f scaleRelativeToOrigin = Matrix4x4f::scale(scaleOrigin, origin);
     Matrix4x4f scaleRelativeToObject = Matrix4x4f::scale(scale);
     Matrix4x4f rotateRelativeToOrigin = Matrix4x4f::rotate(rotationOrigin, origin);
-    Matrix4x4f rotateRelativeToObject = Matrix4x4f::rotate(rotation, Vector3f(0.f, 0.5f, 0.f));
+    
+    // Wheel center is 0,0,0. Push it up to 0,0.5,0 since that's where they should be rotated about.
+    Vector3f localOrigin = Vector3f(0.f, 0.5f, 0.f);
+    Matrix4x4f rotateRelativeToObject = Matrix4x4f::rotate(Vector3f(rotation.x, rotation.y, rotation.z), localOrigin);
+    // Do tire rotations after. Otherwise the rotations are out of order and the "moving" animation of the wheels is on the wrong axis.
+    Matrix4x4f tireRotateMat = Matrix4x4f::rotate(Vector3f(0.f, tireRotation, 0.f), localOrigin);
+    rotateRelativeToObject = rotateRelativeToObject.product(tireRotateMat);
     
     Matrix4x4f mat = scaleRelativeToObject.product(rotateRelativeToObject.product(Matrix4x4f::translate(position).product(scaleRelativeToOrigin.product(rotateRelativeToOrigin))));
     

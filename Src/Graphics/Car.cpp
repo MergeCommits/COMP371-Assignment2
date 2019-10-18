@@ -5,6 +5,7 @@
 #include "Wheel.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "../Math/MathUtil.h"
 
 Car::Car(Shader* shd) {
     renderingMode = GL_FILL;
@@ -81,6 +82,7 @@ Car::Car(Shader* shd) {
     
     metalTexture = new Texture("Textures/metal.jpg");
     tireTexture = new Texture("Textures/tire.png");
+    tireRotation = 0.f;
 }
 
 Car::~Car() {
@@ -146,6 +148,13 @@ void Car::addRotationZ(float bruh) {
     }
 }
 
+void Car::addTireRotation(float bruh) {
+    tireRotation = MathUtil::clampFloat(tireRotation + bruh, -1.f, 1.f);
+    for (int i = 0; i < 4; i++) {
+        wheels[i]->setTireRotation(tireRotation);
+    }
+}
+
 void Car::setRenderingMode(GLenum mode) {
     renderingMode = mode;
 }
@@ -179,6 +188,8 @@ void Car::walk(Car::WalkInput input, float speed) {
     }
     
     if (targetDir.lengthSquared() < 0.01f) { return; }
+    
+    addRotationY(tireRotation * 0.05f);
     addPositionXZ(targetDir.normalize().multiply(speed));
 }
 

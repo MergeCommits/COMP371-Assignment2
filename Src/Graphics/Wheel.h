@@ -32,6 +32,7 @@ public:
     void addRotationX(float bruh);
     void addRotationOriginY(float bruh);
     void addRotationZ(float bruh);
+    void setTireRotation(float bruh);
 
     void setShader(Shader* shd);
 

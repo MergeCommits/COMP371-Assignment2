@@ -16,6 +16,7 @@ private:
     Vector3f position;
     Vector3f scale;
     Vector3f rotation;
+    float tireRotation;
     GLenum renderingMode;
     
     
@@ -43,6 +44,7 @@ public:
     void addRotationX(float bruh);
     void addRotationY(float bruh);
     void addRotationZ(float bruh);
+    void addTireRotation(float bruh);
     void setRenderingMode(GLenum mode);
     
     void setShader(Shader* shd);
