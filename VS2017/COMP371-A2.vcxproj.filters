@@ -57,6 +57,15 @@
     <ClCompile Include="..\Src\Utils\String.cpp">
       <Filter>Src\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\Graphics\Quad.cpp">
+      <Filter>Src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Graphics\Texture.cpp">
+      <Filter>Src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Graphics\Wheel.cpp">
+      <Filter>Src\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\Timing.h">
@@ -97,6 +106,15 @@
     </ClInclude>
     <ClInclude Include="..\Src\Utils\String.h">
       <Filter>Src\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Graphics\Quad.h">
+      <Filter>Src\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Graphics\Texture.h">
+      <Filter>Src\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Graphics\Wheel.h">
+      <Filter>Src\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

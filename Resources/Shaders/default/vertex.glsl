@@ -8,6 +8,6 @@ uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
 void main() {
-    vec3 test = normal;
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0f);
+    vec4 dummyNormal = vec4(clamp(normal.x, 0.0, 0.0), 0.0, 0.0, 0.0);
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0f) + dummyNormal;
 }

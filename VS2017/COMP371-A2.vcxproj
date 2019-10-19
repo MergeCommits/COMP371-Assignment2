@@ -17,8 +17,11 @@
     <ClCompile Include="..\Src\Graphics\Cube.cpp" />
     <ClCompile Include="..\Src\Graphics\Grid.cpp" />
     <ClCompile Include="..\Src\Graphics\Mesh.cpp" />
+    <ClCompile Include="..\Src\Graphics\Quad.cpp" />
     <ClCompile Include="..\Src\Graphics\Shader.cpp" />
+    <ClCompile Include="..\Src\Graphics\Texture.cpp" />
     <ClCompile Include="..\Src\Graphics\Triangle.cpp" />
+    <ClCompile Include="..\Src\Graphics\Wheel.cpp" />
     <ClCompile Include="..\Src\Main.cpp" />
     <ClCompile Include="..\Src\Math\MathUtil.cpp" />
     <ClCompile Include="..\Src\Math\Matrix.cpp" />
@@ -33,8 +36,11 @@
     <ClInclude Include="..\Src\Graphics\Cube.h" />
     <ClInclude Include="..\Src\Graphics\Grid.h" />
     <ClInclude Include="..\Src\Graphics\Mesh.h" />
+    <ClInclude Include="..\Src\Graphics\Quad.h" />
     <ClInclude Include="..\Src\Graphics\Shader.h" />
+    <ClInclude Include="..\Src\Graphics\Texture.h" />
     <ClInclude Include="..\Src\Graphics\Triangle.h" />
+    <ClInclude Include="..\Src\Graphics\Wheel.h" />
     <ClInclude Include="..\Src\Math\MathUtil.h" />
     <ClInclude Include="..\Src\Math\Matrix.h" />
     <ClInclude Include="..\Src\Math\Vector.h" />
@@ -102,7 +108,8 @@
       </Path>
     </BuildLog>
     <PostBuildEvent>
-      <Command>xcopy /d /s /y $(ProjectDir)..\Resources\*  $(TargetDir)</Command>
+      <Command>xcopy /d /s /y $(ProjectDir)..\Resources\*  $(TargetDir)
+xcopy /d /s /y $(ProjectDir)..\Libraries\FreeImage-3170\lib\win32\FreeImage.dll $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -131,7 +138,8 @@
       </Path>
     </BuildLog>
     <PostBuildEvent>
-      <Command>xcopy /d /s /y $(ProjectDir)..\Resources\*  $(TargetDir)</Command>
+      <Command>xcopy /d /s /y $(ProjectDir)..\Resources\*  $(TargetDir)
+xcopy /d /s /y $(ProjectDir)..\Libraries\FreeImage-3170\lib\win32\FreeImage.dll $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
