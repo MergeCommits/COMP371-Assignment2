@@ -4,12 +4,8 @@
 #include "../Math/Matrix.h"
 #include "Shader.h"
 
-class GraphicsResources;
-
 class Camera {
 private:
-    GraphicsResources* gfxRes;
-
     float xAngle;
     float yAngle;
     // The range of the the yAngle field before it is clamped.

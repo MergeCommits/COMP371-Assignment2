@@ -69,7 +69,7 @@ void Camera::update() {
         if (!orthographicProj) {
             projectionMatrix = Matrix4x4f::constructPerspectiveMat(fov, getAspectRatio(), nearPlaneZ, farPlaneZ);
         } else {
-            projectionMatrix = Matrix4x4f::constructOrthographicMat(width, height, nearPlaneZ, farPlaneZ);
+            projectionMatrix = Matrix4x4f::constructOrthographicMat((float)width, (float)height, nearPlaneZ, farPlaneZ);
         }
         
         for (int i = 0; i < (int)shaders.size(); i++) {

@@ -229,8 +229,13 @@ int main() {
             car->render();
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-            // reset viewport
-            glViewport(0, 0, width * 2, height * 2);
+            // Reset viewport.
+#if defined(PLATFORM_OSX)
+			// Due to macOS retina displays the backbuffer's size is actually twice of what is passed to the window, so double it here.
+			glViewport(0, 0, width * 2, height * 2);
+#else
+			glViewport(0, 0, width, height);
+#endif
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         
@@ -298,10 +303,10 @@ void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     } else {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        mouseXDiff = xpos - prevMouseX;
-        mouseYDiff = ypos - prevMouseY;
-        prevMouseX = xpos;
-        prevMouseY = ypos;
+        mouseXDiff = (float)xpos - prevMouseX;
+        mouseYDiff = (float)ypos - prevMouseY;
+        prevMouseX = (float)xpos;
+        prevMouseY = (float)ypos;
         
         float sensitivity = 0.01f;
         mouseXDiff *= sensitivity;
