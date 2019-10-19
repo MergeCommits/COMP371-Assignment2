@@ -1,11 +1,11 @@
 **** CONTROLS ****
 
 W - Move forward.
-A - Move left.
-S - Move right.
+A - Strafes left.
+S - Strafes right.
 D - Move backwards.
-Q - Rotate left about Y axis.
-E - Rotate right about Y axis.
+Q - Rotate wheels to the left.
+Q - Rotate wheels to the right.
 U - Scales up the car's size.
 J - Scales down the car's size.
 
@@ -17,6 +17,10 @@ SpaceBar - Positions the car at a random location.
 P - Changes the rendering mode of the car to points.
 L - Changes the rendering mode of the car to lines (wireframe).
 T - Changes the rendering mode of the car to fill (triangles).
+
+X - Toggles the rendering of textures on objects.
+B - Toggles the shadow mapping algorithm.
+K - Toggles the rendering of the depth map to the screen.
 
 LeftArrow - Turn camera left.
 RightArrow - Turn camera right.
