@@ -3,7 +3,6 @@
 [Rr]elease
 [Bb]in
 *.exe
-*.dll
 *.pdb
 *.ilk
 *.log
