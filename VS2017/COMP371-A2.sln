@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "COMP371-A1", "COMP371-A1.vcxproj", "{277EAE68-9EED-4EFF-BAD3-2A70787A3E8D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "COMP371-A2", "COMP371-A2.vcxproj", "{277EAE68-9EED-4EFF-BAD3-2A70787A3E8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
